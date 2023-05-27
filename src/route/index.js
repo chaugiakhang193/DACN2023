@@ -1,8 +1,8 @@
-const loginRouter = require('./Auth/login')
-const signupRouter = require('./Auth/signup')
-const forgetRouter = require('./Auth/forget')
-const homeRouter = require('./Home/home')
-const db = require('../../database/db')
+const loginRouter = require('./Auth/login');
+const signupRouter = require('./Auth/signup');
+const forgetRouter = require('./Auth/forget');
+const homeRouter = require('./Home/home');
+const db = require('../../database/db');
 const AccountSchema = require('../model/Account');
 
 //connect database

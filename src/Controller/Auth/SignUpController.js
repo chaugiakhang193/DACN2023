@@ -35,11 +35,10 @@ class SignUpController {
                 //check mail already exists
                 if(AlreadyMail){
                     res.send("Mail have already used")
-                    //res.render("signup")
                 }
                 else{
                     await AccountSchema.insertMany([data])
-                    res.render("login");
+                    res.redirect('/login');
                 }
                 }
         }catch(error){
