@@ -1,17 +1,19 @@
 const AccountSchema = require('../../model/Account');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class LoginController{
-
+    
     //[GET] /login 
     RenderLogin(req, res) {
-        res.render("login");
+        res.render("login"); 
     }
 
     //[POST] /login
     async Authentication(req, res){
         try{
             const User = await AccountSchema.findOne({name:req.body.name})
+            
             if(!User){
                 res.send("Can't find your account, please try again");
             }else{
@@ -23,7 +25,11 @@ class LoginController{
                     res.send("Your password is incorrect, please try again");
 
                 }
-                else{
+                else{ 
+                    const accessToken =  this.generateAccessToken(User)
+                    const refreshToken = this.generateRefreshToken(User)
+                    console.log(accessToken);
+                    console.log(refreshToken);
                     res.redirect('/home');
                 }
 
@@ -31,11 +37,37 @@ class LoginController{
 
 
         }
-        catch{
+        catch(error){
             res.send("Oh, some thing went wrong");
+            console.log(error)
         }
     }
     
 
+    generateAccessToken=(User)=>{
+        return jwt.sign(
+            {
+                id: User.id,
+                teacher: User.teacher,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        );
+    }
+
+    generateRefreshToken=(User)=>{
+        return jwt.sign(
+            {
+                id: User.id,
+                teacher: User.teacher,
+            },
+            process.env.JWT_SECRET_REFRESH,
+            {
+                expiresIn: "365d"
+            }
+        );
+    }
 }
 module.exports = new LoginController;   

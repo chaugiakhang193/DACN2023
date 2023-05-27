@@ -18,6 +18,10 @@ const AccountSchema = new Schema({
     token:{
         type:String,
         default:''
+    },
+    teacher:{
+        type: Boolean,
+        default: false
     }
 })
 
