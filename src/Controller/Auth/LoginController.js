@@ -28,8 +28,12 @@ class LoginController{
                 else{ 
                     const accessToken =  this.generateAccessToken(User)
                     const refreshToken = this.generateRefreshToken(User)
-                    console.log(accessToken);
-                    console.log(refreshToken);
+                    
+                    res.cookie("accessToken", accessToken,{
+                        httpOnly: true,
+                        sameSite: "strict",
+                    })
+
                     res.redirect('/home');
                 }
 
@@ -52,7 +56,7 @@ class LoginController{
             },
             process.env.JWT_SECRET,
             {
-                expiresIn: "1h"
+                expiresIn: "15m"
             }
         );
     }
