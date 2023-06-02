@@ -22,11 +22,25 @@ function route(app){
     //  /home
     app.use('/home', homeRouter);
 
-
+    app.get('/logout', async(req, res) => {
+            
+            res.clearCookie("accessToken");
+            res.clearCookie("refreshToken");
+            
+            res.redirect('/login');
+    });
 
     // DEFAULT PAGE
     app.get('/', (req, res) =>{
-        res.render("defaultpage")
+        const accessToken =req.cookies.accessToken;
+        const refreshToken =req.cookies.refreshToken;
+        if(accessToken||refreshToken){
+            res.redirect('/home');
+        }
+        else{
+           res.render("defaultpage")
+            
+        }
     })
 
 }
