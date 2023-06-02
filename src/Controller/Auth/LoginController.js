@@ -6,6 +6,7 @@ class LoginController{
     
     //[GET] /login 
     RenderLogin(req, res) {
+        
         res.render("login"); 
     }
 
