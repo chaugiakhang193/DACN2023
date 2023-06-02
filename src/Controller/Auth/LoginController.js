@@ -32,8 +32,18 @@ class LoginController{
                     res.cookie("accessToken", accessToken,{
                         httpOnly: true,
                         sameSite: "strict",
+                        secure: true,
                     })
-
+                    res.cookie("refreshToken", refreshToken,{
+                        httpOnly: true,
+                        sameSite: "strict",
+                        secure: true,
+                    })
+                    res.cookie("User",User,{
+                        httpOnly: true,
+                        sameSite: "strict",
+                        secure: true,
+                    })
                     res.redirect('/home');
                 }
 
@@ -56,7 +66,7 @@ class LoginController{
             },
             process.env.JWT_SECRET,
             {
-                expiresIn: "15m"
+                expiresIn: "30m"
             }
         );
     }
@@ -69,7 +79,7 @@ class LoginController{
             },
             process.env.JWT_SECRET_REFRESH,
             {
-                expiresIn: "365d"
+                expiresIn: "24h"
             }
         );
     }
