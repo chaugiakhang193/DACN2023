@@ -2,6 +2,7 @@ const loginRouter = require('./Auth/login');
 const signupRouter = require('./Auth/signup');
 const forgetRouter = require('./Auth/forget');
 const homeRouter = require('./Home/home');
+const announcementRouter = require('../route/Annoucement/Annoucement');
 const db = require('../../database/db');
 const AccountSchema = require('../model/Account');
 
@@ -22,6 +23,7 @@ function route(app){
     //  /home
     app.use('/home', homeRouter);
 
+    //  /logout
     app.get('/logout', async(req, res) => {
             
             res.clearCookie("accessToken");
@@ -29,6 +31,10 @@ function route(app){
             
             res.redirect('/login');
     });
+
+    /// /announcement
+    app.use('/announcement', announcementRouter);
+
 
     // DEFAULT PAGE
     app.get('/', (req, res) =>{
