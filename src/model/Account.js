@@ -22,7 +22,20 @@ const AccountSchema = new Schema({
     teacher:{
         type: Boolean,
         default: false
-    }
+    },
+    MSSV:{
+        type:String,
+        default:''
+    },
+    CreateAt:{
+        type:Date,
+        default: Date.now
+    },
+    UpdateAt:{
+        type:Date,
+        default: Date.now
+    },
+
 })
 
 

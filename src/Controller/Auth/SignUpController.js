@@ -27,18 +27,21 @@ class SignUpController {
             const ExistName = await AccountSchema.findOne({name});
             //check name already exists
             if(ExistName){
-                res.send("Username have already used")
+                //res.send("Username have already used")
+                res.render("signup", {message: "Username have already used"})
             }
             else{
                 const email = data.email;
                 const AlreadyMail = await AccountSchema.findOne({email});
                 //check mail already exists
                 if(AlreadyMail){
-                    res.send("Mail have already used")
+                    //res.send("Mail have already used")
+                    res.render("signup", {message: "Mail have already used"})
                 }
                 else{
                     await AccountSchema.insertMany([data])
-                    res.redirect('/login');
+                    //res.redirect('/login');
+                    res.render("signup", {message: "Create account successfully!"})
                 }
                 }
         }catch(error){

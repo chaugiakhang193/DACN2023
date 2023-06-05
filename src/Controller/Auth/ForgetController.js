@@ -22,7 +22,8 @@ class ForgetController{
             this.sendResetPasswordMail(userData.name, userData.email, randomString);
             //res.send("Please check your email")
             //res.render('forget', {message: "Please check your email"})
-            res.send("Please check your email")
+            //res.send("Please check your email")
+            res.render('forget', {message: "Mail has been sent, please check your email"})
 
           }
           else{
@@ -68,6 +69,7 @@ class ForgetController{
                 else{
                     
                     console.log("Mail has been sent: - "+ infor.response)
+                    
                 }
             });
         }
