@@ -1,5 +1,5 @@
 const Annoucement = require("../../model/Annoucement")
-
+const moment = require ("moment")
 
 class AnnoucementController {
 
@@ -22,16 +22,22 @@ class AnnoucementController {
     //[POST] /announcement/create
     async PostAnnouncement(req, res) {
         try{
+        const CreateAt = " - " + moment().format('L') + " - " + moment().format('LT');
+        const UpdateAt = " - " + moment().format('L') + " - " + moment().format('LT');
+        
         const data =
-        {
+        {   Type : req.body.Type,
             Title:req.body.Title,
             Content:req.body.Content,
-            Description:req.body.Description
+            Description:req.body.Description,
+            CreateAt: CreateAt,
+            UpdateAt: UpdateAt
         } 
         await Annoucement.insertMany([data]);
         res.render("Annoucement/AnnoucementCreate",{message: "You have successfully posted annoucement!"} );}
         catch(error)
         {
+        console.log(error);
         res.render("Annoucement/AnnoucementCreate",{message: "You have failed posted annoucement!"} )
         }
     }
