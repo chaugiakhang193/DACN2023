@@ -8,9 +8,15 @@
 </head>
 <body>
     <h2>THIS IS ANNOUNCEMENT PAGE</h2>
-    
-    
 
+        {{#each AnnoucementInfoS}}
+        <div>
+        <a href="/announcement/{{this._id}}">[{{this.Title}}] {{this.CreateAt}} </a> 
+        </div>
+        {{/each}}
+
+    <div>
     <a href="/home">back to home</a>
+    </div>
 </body>
 </html>
