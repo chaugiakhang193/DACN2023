@@ -3,9 +3,15 @@ const Annoucement = require("../../model/Annoucement")
 
 class AnnoucementController {
 
-     //[GET] /announcement/c
+     //[GET] /announcement/
     RenderAnnoucement(req, res) {
-        res.render("Annoucement/Annoucement");
+        Annoucement.find({})
+        .then(AnnoucementInfoS =>{
+            AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
+            res.render("Annoucement/Annoucement", {AnnoucementInfoS});
+        })
+        
+        
     }
 
     //[GET] /announcement/create
