@@ -16,14 +16,16 @@ class LoginController{
             const User = await AccountSchema.findOne({name:req.body.name})
             
             if(!User){
-                res.send("Can't find your account, please try again");
+                //res.send("Can't find your account, please try again");
+                res.render("login", {message: "Can't find your account, please try again"});
             }else{
                 const validPassword = await bcrypt.compare(
                     req.body.password,
                     User.password
                 );
                 if(!validPassword){
-                    res.send("Your password is incorrect, please try again");
+                    //res.send("Your password is incorrect, please try again");
+                    res.render("login", {message: "Your password is incorrect, please try again"});
 
                 }
                 else{ 

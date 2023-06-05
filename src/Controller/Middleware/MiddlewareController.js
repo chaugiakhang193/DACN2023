@@ -10,8 +10,8 @@ const Middleware = {
         const accessToken =req.cookies.accessToken;
         const refreshToken =req.cookies.refreshToken;
         const UserInfo = req.cookies.User;
-        console.log("Access:" + accessToken);
-        console.log("Refresh:" +refreshToken);
+        //console.log("Access:"  +accessToken);
+        //console.log("Refresh:" +refreshToken);
 
         if(refreshToken){    
 
@@ -35,7 +35,7 @@ const Middleware = {
                                     httpOnly: true,
                                     sameSite: "strict",
                                 })
-                                console.log("Access token after refresh: " + accessToken);
+                                //console.log("Access token after refresh: " + accessToken);
 
 
                                 //verify new accessToken
@@ -78,7 +78,7 @@ const Middleware = {
     //authorize for teacher user
     VerifyTokenandTeacher:(req, res, next) => {
         Middleware.VerifyToken(req,res, () =>{
-            console.log(req.user.teacher);
+            //console.log(req.user.teacher);
             
             if(req.user.teacher){
                 
