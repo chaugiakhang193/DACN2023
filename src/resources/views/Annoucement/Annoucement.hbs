@@ -11,11 +11,12 @@
 
         {{#each AnnoucementInfoS}}
         <div>
-        <a href="/announcement/{{this._id}}">[{{this.Title}}] {{this.CreateAt}} </a> 
+        <a style="margin:0;display:inline;float:left" href="/announcement/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
+        <p style="margin:0;display:inline:float:right" >  {{this.CreateAt}}</p>
         </div>
         {{/each}}
 
-    <div>
+    <div class="mt-4">
     <a href="/home">back to home</a>
     </div>
 </body>

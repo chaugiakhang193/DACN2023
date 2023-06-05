@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Annoucement = new Schema({
+    Type:{
+        type:String,
+        required:true, 
+    },
     Title:{
         type:String,
         required:true,
@@ -16,10 +20,16 @@ const Annoucement = new Schema({
         required:true
     },
     CreateAt:{
+        type:String,
+    },
+    UpdateAt:{
+        type:String,
+    },
+    DateCreateAt:{
         type:Date,
         default: Date.now
     },
-    UpdateAt:{
+    DateUpdateAt:{
         type:Date,
         default: Date.now
     },
