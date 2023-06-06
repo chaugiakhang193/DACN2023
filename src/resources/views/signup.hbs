@@ -9,9 +9,9 @@
 <body>
         <h2>SIGNUP</h2>
         <form action="/signup" method="post" >
-            <input type="text" name="name" required placeholder="Username" >
+            <input  maxlength="8" type="text" name="name" required placeholder="Username" >
             <br> 
-            <input type="password" name="password"required placeholder="********">
+            <input maxlength="16" type="password" name="password"required placeholder="********">
             <br> 
             <input type="email" name="email" required placeholder="email">
             <br>
@@ -26,6 +26,5 @@
             <input type="submit" value = "Sign Up">
         </form>
 
-         <a href="./login">Already have a account? Click here</a>
 </body>
 </html>

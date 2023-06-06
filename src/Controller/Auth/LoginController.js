@@ -6,8 +6,14 @@ class LoginController{
     
     //[GET] /login 
     RenderLogin(req, res) {
-        
+        const accessToken =req.cookies.accessToken;
+        const refreshToken =req.cookies.refreshToken;
+        if(accessToken||refreshToken){
+            res.redirect('/home');  
+        }
+        else{
         res.render("login"); 
+        }
     }
 
     //[POST] /login

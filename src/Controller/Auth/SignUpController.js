@@ -25,13 +25,14 @@ class SignUpController {
                 Realname: req.body.Realname,
                 
             }
-            
+            var message = " ";
             const name = data.name;
             const ExistName = await AccountSchema.findOne({name});
             //check name already exists
             if(ExistName){
                 //res.send("Username have already used")
-                res.render("signup", {message: "Username have already used"})
+                message = await message  + "Username have already used  "
+                res.render("signup", {message: message})
             }
             else{
                 const email = data.email;
@@ -39,17 +40,28 @@ class SignUpController {
                 //check mail already exists
                 if(AlreadyMail){
                     //res.send("Mail have already used")
-                    res.render("signup", {message: "Mail have already used"})
+                    message =await  message  + "Mail have already used  "
+                    res.render("signup", {message: message})
                 }
                 else{
-                    await AccountSchema.insertMany([data])
-                    //res.redirect('/login');
-                    res.render("signup", {message: "Create account successfully!"})
+                    const name = await req.body.name.length;
+                    if(name < 8){   
+                        message = await message  +  "Username need have 8 characters "
+                        res.render("signup", {message: message })}
+                    else{
+                        const password = await req.body.password.length;
+                        if(password <8){ 
+                                message = await message  +  "Password need have 8-16 characters  "
+                                res.render("signup", {message: message })}
+                        else{
+                            await AccountSchema.insertMany([data])
+                            //res.redirect('/login');
+                            res.render("signup", {message: "Create account successfully!"})
+                            }
+                        }
+                    }
                 }
-                }
-        }catch(error){
-                console.log(error);
-            }
+        }catch(error){console.log(error);}
 
     }
 }
