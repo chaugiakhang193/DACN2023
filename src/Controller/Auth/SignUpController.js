@@ -17,10 +17,13 @@ class SignUpController {
             const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
             const data =
-            {
+            {   teacher: req.body.teacher,
                 name:req.body.name,
                 password:hashedPassword,
-                email:req.body.email
+                email:req.body.email,
+                MSSV: req.body.name,
+                Realname: req.body.Realname,
+                
             }
             
             const name = data.name;

@@ -19,7 +19,7 @@ class ForgetController{
             
             const randomString = randomstring.generate();
             const UpdatedToken = await AccountSchema.updateOne({email:email}, {$set:{token:randomString}});
-            this.sendResetPasswordMail(userData.name, userData.email, randomString);
+            this.sendResetPasswordMail(userData.Realname, userData.email, randomString);
             //res.send("Please check your email")
             //res.render('forget', {message: "Please check your email"})
             //res.send("Please check your email")

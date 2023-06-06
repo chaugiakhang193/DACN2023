@@ -5,6 +5,7 @@ const homeRouter = require('./Home/home');
 const announcementRouter = require('../route/Annoucement/Annoucement');
 const db = require('../../database/db');
 const AccountSchema = require('../model/Account');
+const Annoucement = require('../model/Annoucement');
 
 //connect database
 db.connect();
@@ -41,11 +42,15 @@ function route(app){
         const accessToken =req.cookies.accessToken;
         const refreshToken =req.cookies.refreshToken;
         if(accessToken||refreshToken){
-            res.redirect('/home');
+            res.redirect('/home');  
         }
         else{
-           res.render("defaultpage")
-            
+            //only show public information 
+        Annoucement.find({Public: true})
+        .then(AnnoucementInfoS =>{
+            AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
+            res.render("defaultpage", {AnnoucementInfoS});
+        })
         }
     })
 
