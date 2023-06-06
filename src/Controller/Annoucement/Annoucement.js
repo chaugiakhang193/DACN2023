@@ -3,7 +3,21 @@ const moment = require ("moment")
 
 class AnnoucementController {
 
-     //[GET] /announcement/
+
+    
+
+    //[GET] /announcement/:id
+    async RenderAnnoucementDetailPage(req, res) {
+        const DetailPage = await Annoucement.findOne({_id: req.params.id});
+        const Title = DetailPage.Title.toUpperCase();
+        const Description = DetailPage.Description;
+        const Content  = DetailPage.Content;
+        const CreateAt = DetailPage.CreateAt
+        res.render("Annoucement/DetailPage",{Title : Title ,Description:Description ,Content:Content, CreateAt:CreateAt} );
+    }
+
+
+    //[GET] /announcement/
     RenderAnnoucement(req, res) {
         Annoucement.find({})
         .then(AnnoucementInfoS =>{
@@ -19,11 +33,12 @@ class AnnoucementController {
         res.render("Annoucement/AnnoucementCreate");
     }
 
+
     //[POST] /announcement/create
     async PostAnnouncement(req, res) {
         try{
-        const CreateAt = " - " + moment().format('L') + " - " + moment().format('LT');
-        const UpdateAt = " - " + moment().format('L') + " - " + moment().format('LT');
+        const CreateAt = moment().format('L') + " - " + moment().format('LT');
+        const UpdateAt = moment().format('L') + " - " + moment().format('LT');
         
         const data =
         {   Type : req.body.Type,
@@ -31,7 +46,8 @@ class AnnoucementController {
             Content:req.body.Content,
             Description:req.body.Description,
             CreateAt: CreateAt,
-            UpdateAt: UpdateAt
+            UpdateAt: UpdateAt,
+            Public: req.body.Public
         } 
         await Annoucement.insertMany([data]);
         res.render("Annoucement/AnnoucementCreate",{message: "You have successfully posted annoucement!"} );}

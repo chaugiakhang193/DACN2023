@@ -27,6 +27,10 @@ const AccountSchema = new Schema({
         type:String,
         default:''
     },
+    Realname:{
+        type:String,
+        default:''
+    },
     CreateAt:{
         type:Date,
         default: Date.now

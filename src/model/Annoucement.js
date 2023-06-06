@@ -33,6 +33,10 @@ const Annoucement = new Schema({
         type:Date,
         default: Date.now
     },
+    Public:{
+        type: Boolean,
+        default: false
+    }
    
 
 })

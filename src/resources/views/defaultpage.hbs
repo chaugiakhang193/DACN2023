@@ -8,7 +8,15 @@
 </head>
 <body>
     <h2>THIS IS DEFAULT PAGE</h2>
-   <a href="./login">LOGIN</a>
-    <a href="./signup">SIGNUP</a>
+    <a href="./login">LOGIN</a>
+
+    <h2>THIS IS PUBLIC INFORMATION</h2>
+    {{#each AnnoucementInfoS}}
+        <div>
+        <a style="margin:0;display:inline;float:left" href="/announcement/public/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
+        <p style="margin:0;display:inline:float:right" > - {{this.CreateAt}}</p>
+        </div>
+    {{/each}}
+
 </body>
 </html>
