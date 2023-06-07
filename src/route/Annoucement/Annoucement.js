@@ -12,8 +12,8 @@ router.get('/create',Middleware.VerifyTokenandTeacher ,AnnoucementController.Ren
 // [POST] /announcement/create
 router.post('/create',Middleware.VerifyTokenandTeacher,AnnoucementController.PostAnnouncement);
 
-// [GET] /announcement/:id
-router.get('/public/:id',AnnoucementController.RenderAnnoucementDetailPage);
+// [GET] /announcement/public/:id
+router.get('/public/:id',AnnoucementController.RenderAnnoucementPublicDetailPage.bind(AnnoucementController));
 
 // [GET] /announcement/:id
 router.get('/:id',Middleware.VerifyToken ,AnnoucementController.RenderAnnoucementDetailPage);

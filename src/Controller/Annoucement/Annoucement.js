@@ -4,7 +4,16 @@ const moment = require ("moment")
 class AnnoucementController {
 
 
-    
+    //[GET] /announcement/public/:id
+    async RenderAnnoucementPublicDetailPage(req, res) {
+        const DetailPage = await Annoucement.findOne({_id: req.params.id});
+        const DetailPageStatus = await DetailPage.Public;
+        if(!DetailPageStatus){res.send("You need to login for view this page")}
+        else{
+            //only render detail page when the page is set public 
+            this.RenderAnnoucementDetailPage(req, res);
+        }
+    }
 
     //[GET] /announcement/:id
     async RenderAnnoucementDetailPage(req, res) {
