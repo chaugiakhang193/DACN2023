@@ -28,7 +28,11 @@ class AnnoucementController {
 
     //[GET] /announcement/
     RenderAnnoucement(req, res) {
-        Annoucement.find({})
+        let AnnoucementQuery = Annoucement.find({})
+        
+        AnnoucementQuery.sort({
+            DateUpdateAt: 'desc'
+        })
         .then(AnnoucementInfoS =>{
             AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
             res.render("Annoucement/Annoucement", {AnnoucementInfoS});
@@ -46,8 +50,19 @@ class AnnoucementController {
     //[POST] /announcement/create
     async PostAnnouncement(req, res) {
         try{
-        const CreateAt = moment().format('L') + " - " + moment().format('LT');
-        const UpdateAt = moment().format('L') + " - " + moment().format('LT');
+        //format date data to dd/mm/yyyy
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        let mm = today.getMonth() + 1; 
+        let dd = today.getDate();
+            
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+            
+        const formattedToday = dd + '/' + mm + '/' + yyyy;   
+
+        const CreateAt = formattedToday + " - " + moment().format('LT');
+        const UpdateAt = formattedToday + " - " + moment().format('LT');
         
         const data =
         {   Type : req.body.Type,

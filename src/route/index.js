@@ -46,7 +46,10 @@ function route(app){
         }
         else{
             //only show public information 
-        Annoucement.find({Public: true})
+        let AnnoucementQuery = Annoucement.find({Public: true})
+        AnnoucementQuery.sort({
+            DateUpdateAt: 'desc'
+        })
         .then(AnnoucementInfoS =>{
             AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
             res.render("defaultpage", {AnnoucementInfoS});
