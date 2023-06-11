@@ -36,6 +36,10 @@ const Annoucement = new Schema({
     Public:{
         type: Boolean,
         default: false
+    },
+    Author:{
+        type:String,
+        default:'Unknown'
     }
    
 

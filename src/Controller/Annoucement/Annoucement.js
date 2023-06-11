@@ -1,4 +1,5 @@
 const Annoucement = require("../../model/Annoucement")
+const Account = require("../../model/Account")
 const moment = require ("moment")
 
 class AnnoucementController {
@@ -6,23 +7,44 @@ class AnnoucementController {
 
     //[GET] /announcement/public/:id
     async RenderAnnoucementPublicDetailPage(req, res) {
-        const DetailPage = await Annoucement.findOne({_id: req.params.id});
-        const DetailPageStatus = await DetailPage.Public;
-        if(!DetailPageStatus){res.send("You need to login for view this page")}
-        else{
-            //only render detail page when the page is set public 
-            this.RenderAnnoucementDetailPage(req, res);
+        try{
+            const DetailPage = await Annoucement.findOne({_id: req.params.id});
+            const DetailPageStatus = await DetailPage.Public;
+            if(!DetailPageStatus){res.send("You need to login for view this page")}
+            else{
+                //only render detail page when the page is set public 
+                this.RenderAnnoucementDetailPage(req, res);
+            }
         }
+        catch(error)
+        {res.send("Sorry, can not find your URL in our server")}
     }
 
     //[GET] /announcement/:id
     async RenderAnnoucementDetailPage(req, res) {
-        const DetailPage = await Annoucement.findOne({_id: req.params.id});
-        const Title = DetailPage.Title.toUpperCase();
-        const Description = DetailPage.Description;
-        const Content  = DetailPage.Content;
-        const CreateAt = DetailPage.CreateAt
-        res.render("Annoucement/DetailPage",{Title : Title ,Description:Description ,Content:Content, CreateAt:CreateAt} );
+        try{
+            const DetailPage = await Annoucement.findOne({_id: req.params.id});
+            const Title = DetailPage.Title.toUpperCase();
+            const Description = DetailPage.Description;
+            const Content  = DetailPage.Content;
+            const CreateAt = DetailPage.CreateAt;
+            let AuthorName
+            try{
+                const Author= await Account.findOne({_id: DetailPage.Author});
+                AuthorName  = await Author.Realname
+                res.render("Annoucement/DetailPage",
+                    {Title : Title ,Description:Description ,Content:Content, CreateAt:CreateAt, Author: AuthorName} );
+            }
+            catch(error){
+                AuthorName = await "Unknown";
+                res.render("Annoucement/DetailPage",
+                    {Title : Title ,Description:Description ,Content:Content, CreateAt:CreateAt, Author: AuthorName} );
+            }
+        }
+        catch(error)
+        {
+            res.send("Sorry, can not find your URL in our server")
+        }
     }
 
 
@@ -71,7 +93,8 @@ class AnnoucementController {
             Description:req.body.Description,
             CreateAt: CreateAt,
             UpdateAt: UpdateAt,
-            Public: req.body.Public
+            Public: req.body.Public,
+            Author: req.cookies.User._id,   
         } 
         await Annoucement.insertMany([data]);
         res.render("Annoucement/AnnoucementCreate",{message: "You have successfully posted annoucement!"} );}
