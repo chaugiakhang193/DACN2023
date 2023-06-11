@@ -12,6 +12,8 @@ db.connect();
 
 
 function route(app){
+
+    
     //  /signup
     app.use("/signup", signupRouter);
     
@@ -56,7 +58,11 @@ function route(app){
         })
         }
     })
-
+    
+    app.use((req, res, next) => {
+        res.status(404).send(
+            "<h1>Page not found on the server</h1>")
+    })
 }
 
 module.exports = route;
