@@ -4,6 +4,66 @@ const moment = require ("moment")
 
 class AnnoucementController {
 
+    async EditAnnouncement (req,res){
+        try{
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            let mm = today.getMonth() + 1; 
+            let dd = today.getDate();
+                
+            if (dd < 10) dd = '0' + dd;
+            if (mm < 10) mm = '0' + mm;
+                
+            const formattedToday = await dd + '/' + mm + '/' + yyyy;   
+            const DetailPage = await Annoucement.findOne({_id: req.params.id});
+            const Title = req.body.Title;
+            const Description = req.body.Description;
+            const Content  = req.body.Content
+            const UpdateAt = formattedToday + " - " + moment().format('LT');
+            const DateUpdateAt = new Date();
+            await DetailPage.updateOne({
+                Title:Title,
+                Description: Description,
+                Content: Content,
+                UpdateAt: UpdateAt,
+                DateUpdateAt: DateUpdateAt
+            })
+            res.redirect("/announcement/management")
+        }
+        catch(error){
+            console.log(error);
+            res.send("<h1>Page not found on the server</h1>")
+        }
+    }
+
+    // [GET] /announcement/:id/edit
+    async RenderEditForm(req,res){
+        try{
+        const DetailPage = await Annoucement.findOne({_id: req.params.id});
+        const Title = DetailPage.Title;
+        const Description = DetailPage.Description;
+        const Content  = DetailPage.Content;
+        const id = req.params.id
+        res.render("Annoucement/AnnoucementEdit", {Title: Title, Description: Description, Content: Content, id:id})
+        }
+        catch (err) {
+            res.send("<h1>Page not found on the server</h1>")
+        }
+    }
+
+
+    //[GET] /announcement/management
+    async RenderAnnoucementManagement(req,res){
+        let AnnoucementQuery = Annoucement.find({})
+        
+        AnnoucementQuery.sort({
+            DateUpdateAt: 'desc'
+        })
+        .then(AnnoucementInfoS =>{
+            AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
+            res.render("Annoucement/AnnoucementManagement", {AnnoucementInfoS});
+        })
+    }
 
     //[GET] /announcement/public/:id
     async RenderAnnoucementPublicDetailPage(req, res) {
@@ -17,7 +77,7 @@ class AnnoucementController {
             }
         }
         catch(error)
-        {res.send("Sorry, can not find your URL in our server")}
+        {res.send("<h1>Page not found on the server</h1>")}
     }
 
     //[GET] /announcement/:id
@@ -43,7 +103,7 @@ class AnnoucementController {
         }
         catch(error)
         {
-            res.send("Sorry, can not find your URL in our server")
+            res.send("<h1>Page not found on the server</h1>")
         }
     }
 
