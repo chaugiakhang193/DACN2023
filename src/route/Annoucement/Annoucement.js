@@ -9,16 +9,26 @@ const AnnoucementController =require("../../Controller/Annoucement/Annoucement")
 
 // [GET] /announcement/create
 router.get('/create',Middleware.VerifyTokenandTeacher ,AnnoucementController.RenderAnnoucementCreate);
+
 // [POST] /announcement/create
 router.post('/create',Middleware.VerifyTokenandTeacher,AnnoucementController.PostAnnouncement);
+
+// [GET] /announcement/management
+router.get('/management',Middleware.VerifyTokenandTeacher,AnnoucementController.RenderAnnoucementManagement);
 
 // [GET] /announcement/public/:id
 router.get('/public/:id',AnnoucementController.RenderAnnoucementPublicDetailPage.bind(AnnoucementController));
 
+// [GET] /announcement/:id/edit
+router.get('/:id/edit',Middleware.VerifyTokenandTeacher,AnnoucementController.RenderEditForm);
+
+//[POST] /announcement/:id/edit
+router.post('/:id/edit',Middleware.VerifyTokenandTeacher,AnnoucementController.EditAnnouncement);
+
 // [GET] /announcement/:id
 router.get('/:id',Middleware.VerifyToken ,AnnoucementController.RenderAnnoucementDetailPage);
 
-//[GET] /announcement/:id
+//[GET] /announcement/
 router.get('/',Middleware.VerifyToken,AnnoucementController.RenderAnnoucement);
 
 module.exports=router;
