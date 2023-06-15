@@ -1,0 +1,9 @@
+.background {
+    background-image: linear-gradient(90deg, rgba(66,76,78,0.5882002459186799) 0%, rgba(2,142,196,0.5265755960587359) 37%, rgba(1,220,242,0.29968483975621496) 78%, rgba(194,229,236,0.41453077813156514) 100%),
+                      url("./background_uit_login.jpg");
+    height: 690px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
