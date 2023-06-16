@@ -92,7 +92,22 @@ const Middleware = {
         
     },
 
-    
+    //authorize for students user
+    VerifyTokenandStudent:(req, res, next) => {
+        Middleware.VerifyToken(req,res, () =>{
+            //console.log(req.user.teacher);
+            const IsTeacher = req.user.teacher
+            if(!IsTeacher){
+                
+                next();
+            }
+            else{
+                res.send("You are not student, can not use this feature")
+            }
+            
+        });
+        
+    },
     
 }
 module.exports = Middleware;   
