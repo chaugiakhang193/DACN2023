@@ -25,6 +25,9 @@ router.get('/:id/edit',Middleware.VerifyTokenandTeacher,AnnoucementController.Re
 //[POST] /announcement/:id/edit
 router.post('/:id/edit',Middleware.VerifyTokenandTeacher,AnnoucementController.EditAnnouncement);
 
+//[POST] /announcement/:id/delete
+router.post('/:id/delete',Middleware.VerifyTokenandTeacher,AnnoucementController.DeleteAnnouncement);
+
 // [GET] /announcement/:id
 router.get('/:id',Middleware.VerifyToken ,AnnoucementController.RenderAnnoucementDetailPage);
 

@@ -4,6 +4,20 @@ const moment = require ("moment")
 
 class AnnoucementController {
 
+    async DeleteAnnouncement (req,res){
+        try{
+            
+            const DetailPage = await Annoucement.findOne({_id: req.params.id});
+            
+            await DetailPage.deleteOne({_id: req.params.id});
+            res.redirect('back')
+        }
+        catch(error){
+            console.log(error);
+            res.send("<h1>Page not found on the server</h1>")
+        }
+    }
+
     async EditAnnouncement (req,res){
         try{
             const today = new Date();
