@@ -2,6 +2,7 @@ const loginRouter = require('./Auth/login');
 const signupRouter = require('./Auth/signup');
 const forgetRouter = require('./Auth/forget');
 const homeRouter = require('./Home/home');
+const courseRouter = require('./Course/Course');
 const announcementRouter = require('../route/Annoucement/Annoucement');
 const db = require('../../database/db');
 const AccountSchema = require('../model/Account');
@@ -38,6 +39,9 @@ function route(app){
     /// /announcement
     app.use('/announcement', announcementRouter);
 
+
+    //  /course
+    app.use('/course', courseRouter);
 
     // DEFAULT PAGE
     app.get('/', (req, res) =>{

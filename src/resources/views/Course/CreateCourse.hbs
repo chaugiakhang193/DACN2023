@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <h2>Create a Course</h2>
+        <br> 
+        <form action="/course/create-course" method="post" >
+
+
+
+            <label for= "Name">Tên môn học</label>
+            <div class = "form group">
+                <input type="text" name="Name" id = "Name">
+            </div>
+            
+
+            <label for= "codeCourse">Mã môn</label>
+            <div class = "form group">
+                <input  type="text" name="codeCourse" id = "codeCourse"> 
+            </div>
+
+            <label for= "Description">Mô tả môn học</label>
+            <div class = "form group">
+                <textarea rows="5" cols="23" type="text" name="Description" id ="Description"></textarea>
+            </div>    
+
+            <label for= "StartAt">Ngày bắt đầu môn học</label>
+            <div class = "form group">
+                <textarea rows="5" cols="23" type="text" name="StartAt" id ="StartAt"></textarea>
+            </div>    
+
+            <label for= "EndAt">Ngày kết thúc môn học</label>
+            <div class = "form group">
+                <textarea rows="5" cols="23" type="text" name="EndAt" id ="EndAt"></textarea>
+            </div>    
+
+                <p> {{message}}</p>
+                <input type="submit" value = "Post">
+        </form>
+
+        <a href="/home">Back to Home</a>
+</body>
+</html>
