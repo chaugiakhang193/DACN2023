@@ -25,11 +25,11 @@ const Course = new Schema({
     },
     DateStartAt:{
         type:Date,
-        default: Date.now
+        
     },
     DateEndAt:{
         type:Date,
-        default: Date.now
+       
     },
 
 
