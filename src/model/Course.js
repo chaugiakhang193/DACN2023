@@ -53,14 +53,30 @@ const Course = new Schema({
 
     idStudent:{
         type:String,
-        
-        
     },
     idTeacher:{
         type:String,
         
     },
     idAuthor:{
+        type:String,
+        required:true
+    },
+    IsStudent:{
+        type: Boolean,
+        default: false
+    },
+    
+    
+
+    nameStudent:{
+        type:String,
+    },
+    nameTeacher:{
+        type:String,
+        
+    },
+    nameAuthor:{
         type:String,
         required:true
     },
