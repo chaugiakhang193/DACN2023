@@ -1,6 +1,161 @@
 const Course = require("../../model/Course")
+const Account = require("../../model/Account");
+
 
 class CourseController {
+    // [POST] /course/management/:id/delete
+    async DeleteCourse(req,res)
+    {   
+        try{
+            
+            const CourseDelete = await Course.findOne({_id: req.params.id});
+            const codeCourse = await CourseDelete.codeCourse
+            await Course.deleteMany({codeCourse: codeCourse})
+            //await CourseDelete.deleteOne({_id: req.params.id});
+            res.redirect('back')
+        }
+        catch(error){
+            console.log(error);
+            res.send("<h1>Page not found on the server</h1>")
+        }
+    }
+
+    // [GET] /course/management/:id/edit
+    async EditCourse(req, res){
+        try{
+            const CurrentCourse = await Course.findOne({_id: req.params.id});
+            const nameTeacher = req.body.Teacher;
+            const TeacherInfo = await Account.findOne({ Realname: nameTeacher, teacher:true});
+            
+            if(!TeacherInfo){
+                res.render("Course/Edit",
+                {message: "Can't find this teacher, please try again"});}
+            else{
+                const Name = req.body.Name;
+                const codeCourse = req.body.codeCourse;
+                const Description = req.body.Description;
+                const TeacherID = TeacherInfo._id;
+                
+                //Start Time 
+                var DayStart = req.body.DayStart;
+                var MonthStart = req.body.MonthStart;
+                const YearStart = req.body.YearStart;
+                //format Start Time
+                if (DayStart < 10) DayStart = '0' + DayStart;
+                if (MonthStart < 10) MonthStart = '0' + MonthStart;
+                const StartAt = DayStart + "/" + MonthStart + "/" + YearStart;
+
+                var Temp = YearStart + "-" + MonthStart + "-" + DayStart 
+                var DateStartAt = new Date(Temp)
+                
+
+
+            //End Time
+                var DayEnd = req.body.DayEnd;
+                var MonthEnd = req.body.MonthEnd;
+                const YearEnd = req.body.YearEnd;
+                //format End Time
+                if (DayEnd < 10) DayEnd = '0' + DayEnd;
+                if (MonthEnd < 10) MonthEnd = '0' + MonthEnd;  
+                const EndAt = DayEnd + "/" + MonthEnd + "/" + YearEnd;
+                var Temp = YearEnd + "-" + MonthEnd + "-" + DayEnd; 
+                var DateEndAt = new Date(Temp)
+                const Now = Date.now();
+
+            //update schema course for teacher
+            await CurrentCourse.updateOne({
+                Name: Name,
+                codeCourse:codeCourse,
+                Description: Description,
+                idTeacher: TeacherID,
+                StartAt: StartAt,
+                DateStartAt: DateStartAt,
+                EndAt: EndAt,
+                DateEndAt: DateEndAt,
+                nameTeacher: nameTeacher,
+                DateUpdateAt: Now
+            })
+            const OldCodeCourse = req.body.OldCodeCourse;
+            
+            //update schema course for students 
+            await Course.updateMany(
+                {codeCourse: OldCodeCourse},
+                {
+                Name: Name,
+                codeCourse:codeCourse,
+                Description: Description,
+                idTeacher: TeacherID,
+                StartAt: StartAt,
+                DateStartAt: DateStartAt,
+                EndAt: EndAt,
+                DateEndAt: DateEndAt,
+                nameTeacher: nameTeacher,
+                DateUpdateAt: Now
+                }
+            )
+            res.render("Course/Edit",
+            {message: "Update Course's information successfully!"});
+            }
+        }
+        catch(error){
+            console.log(error.message);
+            res.render("Course/Edit",
+            {message: "Oh, some thing went wrong"});
+        }
+    }
+
+    // [GET] /course/management/:id/edit
+    async RenderEditForm(req, res){
+        try{
+            const CurrentCourse = await Course.findOne({_id: req.params.id});
+            const id = CurrentCourse._id;
+            const Name = CurrentCourse.Name;
+            const codeCourse = CurrentCourse.codeCourse;
+            const Description = CurrentCourse.Description;
+            const Teacher = CurrentCourse.nameTeacher;
+            const OldCodeCourse = CurrentCourse.codeCourse;
+            res.render("Course/Edit",
+            {Name: Name, codeCourse: codeCourse, Description: Description, Teacher:Teacher, id:id, OldCodeCourse:OldCodeCourse});
+        }
+        catch(error){
+            res.render("Course/Edit",
+            {message: "This course not exist, please try again"});
+        }
+    }
+
+    // [GET] /course/management/course-already-create 
+    CourseAlreadyCreate(req, res) {
+        const CurrentUserID = req.cookies.User._id;
+        
+        let CourseInfo =  Course.find({idAuthor:CurrentUserID, IsStudent:false})
+        
+        CourseInfo.sort({
+            DateCreateAt: 'desc'
+        })
+        .then(CourseS =>{
+            
+            CourseS = CourseS.map(Course=>Course.toObject()) 
+            res.render("Course/CourseAlreadyCreate", {CourseS});
+        })
+        
+    }
+
+    // [GET] /course/management/current-course
+    CurrentCourse(req, res) {
+        const CurrentUserID = req.cookies.User._id;
+        
+        let CourseInfo =  Course.find({idTeacher:CurrentUserID, IsStudent:false})
+        
+        CourseInfo.sort({
+            DateCreateAt: 'desc'
+        })
+        .then(CourseS =>{
+            
+            CourseS = CourseS.map(Course=>Course.toObject()) 
+            res.render("Course/CourseAlreadyCreate", {CourseS});
+        })
+        
+    }
 
     //[GET] /course/create-course
     RenderCreateCourse(req, res) {
@@ -14,8 +169,10 @@ class CourseController {
         const codeCourse = req.body.codeCourse;
         const Description = req.body.Description;
         const idAuthor = req.cookies.User._id;
-
-
+        const Teacher = await Account.findOne({_id : idAuthor});
+        const nameTeacher = Teacher.Realname;
+        const nameAuthor = nameTeacher;
+        console.log(nameAuthor);
         //Start Time 
         var DayStart = req.body.DayStart;
         var MonthStart = req.body.MonthStart;
@@ -48,11 +205,13 @@ class CourseController {
                 codeCourse:codeCourse,
                 Description: Description,
                 idAuthor: idAuthor,
+                idTeacher: idAuthor,
                 StartAt: StartAt,
                 DateStartAt: DateStartAt,
                 EndAt: EndAt,
                 DateEndAt: DateEndAt,
-
+                nameTeacher: nameTeacher,
+                nameAuthor: nameAuthor,
             } 
             await Course.insertMany([data]);
             res.render("Course/CreateCourse",{message: "You have successfully create a course!"});
@@ -61,6 +220,12 @@ class CourseController {
         }
     }
     
+
+
+    //[GET] /course/management  
+    ListManagement(req, res) {
+        res.render("Course/ListManagement")
+    }
 }
 
 module.exports = new CourseController;

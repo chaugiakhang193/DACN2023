@@ -127,7 +127,7 @@ class AnnoucementController {
         let AnnoucementQuery = Annoucement.find({})
         
         AnnoucementQuery.sort({
-            DateUpdateAt: 'desc'
+            DateCreateAt: 'desc'
         })
         .then(AnnoucementInfoS =>{
             AnnoucementInfoS = AnnoucementInfoS.map(AnnoucementInfo=>AnnoucementInfo.toObject()) 
