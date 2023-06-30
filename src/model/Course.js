@@ -53,6 +53,7 @@ const Course = new Schema({
 
     idStudent:{
         type:String,
+        default:'Unknown'
     },
     idTeacher:{
         type:String,
@@ -71,6 +72,7 @@ const Course = new Schema({
 
     nameStudent:{
         type:String,
+        default:'Unknown'
     },
     nameTeacher:{
         type:String,

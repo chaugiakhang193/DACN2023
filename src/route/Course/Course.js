@@ -7,7 +7,7 @@ const CourseController = require('../../Controller/Course/CourseController')
 // [GET] /course/create-course
 router.get('/create-course', Middleware.VerifyTokenandTeacher ,CourseController.RenderCreateCourse)
 
-// [GET] /course/create-course
+// [POST] /course/create-course
 router.post('/create-course', Middleware.VerifyTokenandTeacher ,CourseController.CreateCourse)
 
 // [GET] /course/management/course-already-create 

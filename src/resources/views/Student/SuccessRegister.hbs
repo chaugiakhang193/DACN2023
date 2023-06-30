@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách môn đã đăng ký</title>
+</head>
+<body>
+    <h2>Danh sách môn đã đăng ký</h2>
+        <p> {{message}}</p>
+         <table class="table">
+        <thead>
+            <tr>
+           
+            <th scope="col">Môn học</th>
+            <th scope="col">Mã môn</th>
+            <th scope="col">Giảng viên phụ trách</th>
+            <th scope="col">Thời gian môn học</th>
+            <th scope="col">Hành động</th>
+            </tr>
+        </thead>    
+    <tbody> 
+        <tr>
+            {{#each CourseS}}
+            <div>
+                    <tr>
+                        <td>{{this.Name}}</td>
+                        <td>{{this.codeCourse}}</td>
+                        <td>{{nameTeacher}}</td>
+                        <td>{{this.StartAt}} - {{this.EndAt}}</td>
+                        <td>
+                            <a class = "btn btn-link" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Hủy học phần</a>
+                        </td>
+                    </tr>
+            </div>
+            {{/each}}
+        </tr>
+    </tbody>
+    </table>
+
+
+    <div class="mt-4">
+    <a href="/student/dkhp">Back to Register Course</a>
+    </div>
+
+<div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Canceled registration A Course?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Canceled registration for this course?</p>
+        <p id = "title-content"> </p>
+      </div>
+      <div class="modal-footer">
+        <button id = "btn-delete" type="button" class="btn btn-danger">Hủy học phần</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<form name="delete-form" method="post"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var id; 
+    var title;
+    var deleteForm = document.forms['delete-form']
+   
+    $('#delete-announcement').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) 
+    id = button.data('id')
+    title = button.data('title')
+    document.getElementById('title-content').innerHTML = title;
+    });
+
+    var btnDelete = document.getElementById('btn-delete')
+    btnDelete.onclick = function(){
+        deleteForm.action = '/student/dkhp/'+ id +"/delete"
+        deleteForm.submit();
+    }
+
+});
+  
+</script>
+
+</body>
+</html>

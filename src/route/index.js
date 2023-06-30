@@ -4,6 +4,7 @@ const forgetRouter = require('./Auth/forget');
 const homeRouter = require('./Home/home');
 const courseRouter = require('./Course/Course');
 const announcementRouter = require('../route/Annoucement/Annoucement');
+const studentRouter = require('../route/Student/Student');
 const db = require('../../database/db');
 const AccountSchema = require('../model/Account');
 const Annoucement = require('../model/Annoucement');
@@ -28,7 +29,7 @@ function route(app){
     app.use('/home', homeRouter);
 
     //  /logout
-    app.get('/logout', async(req, res) => {
+    app.post('/logout', async(req, res) => {
             
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
@@ -39,6 +40,9 @@ function route(app){
     /// /announcement
     app.use('/announcement', announcementRouter);
 
+
+    // /student
+    app.use('/student', studentRouter);
 
     //  /course
     app.use('/course', courseRouter);

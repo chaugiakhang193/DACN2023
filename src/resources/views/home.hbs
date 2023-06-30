@@ -10,7 +10,55 @@
     <h2>THIS IS HOME</h2>
     
     <p> Hello {{ Realname }}, {{Teacher}}</p>
+     <a data-toggle="modal" data-target="#delete-announcement"  href="/logout">Logout </a>
 
+
+<div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">LOGOUT?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>ARE YOU SURE TO LOGOUT ?</p>
+        
+      </div>
+      <div class="modal-footer">
+        <button id = "btn-delete" type="button" class="btn btn-danger">YES</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<form name="delete-form" method="post"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var id; 
+    var title;
+    var deleteForm = document.forms['delete-form']
+   
+    $('#delete-announcement').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) 
+    id = button.data('id')
+    title = button.data('title')
+    
+    });
+
+    var btnDelete = document.getElementById('btn-delete')
+    btnDelete.onclick = function(){
+        deleteForm.action = '/logout'
+        deleteForm.submit();
+    }
+
+});
+  
+</script>
     
 </body>
 </html>
