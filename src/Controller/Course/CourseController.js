@@ -166,6 +166,7 @@ class CourseController {
     // [POST] /course/management/current-course/:codeCourse/upload-video
     UploadVideo(req,res){
         //write function upload video with cloudninary here + create model for video each course 
+        //research how to use
         res.send("Successfully uploaded")
     }
 
