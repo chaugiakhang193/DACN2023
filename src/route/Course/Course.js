@@ -16,6 +16,17 @@ router.get('/management/course-already-create', Middleware.VerifyTokenandTeacher
 // [GET] /course/management/current-course
 router.get('/management/current-course', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourse)
 
+
+// [GET] /course/management/current-course/:codeCourse/upload-video
+router.get('/management/current-course/:codeCourse/upload-video', Middleware.VerifyTokenandTeacher ,CourseController.UploadVideoForm)
+
+// [POST] /course/management/current-course/:codeCourse/upload-video
+router.post('/management/current-course/:codeCourse/upload-video', Middleware.VerifyTokenandTeacher ,CourseController.UploadVideo)
+
+
+// [GET] /course/management/current-course/:codeCourse
+router.get('/management/current-course/:codeCourse', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourseDetail)
+
 // [GET] /course/management/:id/edit
 router.get('/management/:id/edit', Middleware.VerifyTokenandTeacher ,CourseController.RenderEditForm)
 
