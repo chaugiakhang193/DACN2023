@@ -157,6 +157,31 @@ class CourseController {
         
     }
 
+    // [GET] /course/management/current-course/:codeCourse/upload-video
+    UploadVideoForm(req,res){
+        const codeCourse = req.params.codeCourse
+        res.render("Course/UploadVideo", {codeCourse:codeCourse});
+    }
+
+    // [POST] /course/management/current-course/:codeCourse/upload-video
+    UploadVideo(req,res){
+        //write function upload video with cloudninary here + create model for video each course 
+        res.send("Successfully uploaded")
+    }
+
+    // [GET] /course/management/current-course
+    async CurrentCourseDetail(req, res) {
+        const CurrentUserID = req.cookies.User._id;
+        const codeCourse = req.params.codeCourse
+
+        let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse})
+
+        const Name = CourseInfo.Name;
+        const Description = CourseInfo.Description;
+
+        res.render("Course/CourseDetail", {codeCourse: codeCourse, Name: Name, Description: Description});
+    }
+
     //[GET] /course/create-course
     RenderCreateCourse(req, res) {
         res.render("Course/CreateCourse")

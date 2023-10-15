@@ -24,7 +24,8 @@
             {{#each CourseS}}
             <div>
                     <tr>
-                        <td>{{this.Name}}</td>
+                      
+                        <td><a class = "btn btn-link" href="/course/management/current-course/{{this.codeCourse}}">{{this.Name}}</a></td>
                         <td>{{this.codeCourse}}</td>
                         <td>{{nameTeacher}}</td>
                         <td>{{this.StartAt}} - {{this.EndAt}}</td>
