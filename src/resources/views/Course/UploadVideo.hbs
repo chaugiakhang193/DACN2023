@@ -10,8 +10,10 @@
 <body>
         <h2>Upload Video</h2>
         <br> 
-        <form action="/course/management/current-course/{{codeCourse}}/upload-video" method="post" >
-                <input type="submit" value = "Post">
+        <form action="/course/management/current-course/{{codeCourse}}/upload-video" method="post" enctype="multipart/form-data">
+                <input type="file" name = "mp4">
+                <br>
+                <input type="submit" value = "Upload">
         </form>
 
         <a href="/home">Back to Home</a>

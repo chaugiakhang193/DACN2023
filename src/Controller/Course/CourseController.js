@@ -1,6 +1,7 @@
 const Course = require("../../model/Course")
 const Account = require("../../model/Account");
-
+const CloudinaryHelper = require('../../Controller/Middleware/CloudinaryHelper')
+const cloudinary = require('cloudinary').v2;
 
 class CourseController {
     // [POST] /course/management/:id/delete
@@ -166,7 +167,30 @@ class CourseController {
     // [POST] /course/management/current-course/:codeCourse/upload-video
     UploadVideo(req,res){
         //write function upload video with cloudninary here + create model for video each course 
+        //research how to use
+        //maybe import cloudinary in Course controller file, maybe
+        const fileData = req.file.path
+
+        cloudinary.uploader
+        .upload(fileData, 
+             { resource_type: "video", 
+                public_id: "courses",
+                chunk_size: 6000000,
+                eager: [
+                { width: 300, height: 300, crop: "pad", audio_codec: "none" }, 
+                { width: 160, height: 100, crop: "crop", gravity: "south", audio_codec: "none" } ],                                   
+                eager_async: true,
+                eager_notification_url: "https://mysite.example.com/notify_endpoint" })
+        .then(result=>console.log(result));
+                
+        if(!fileData){
+            console.log("No file data") 
+        }
+        else{
+            console.log(fileData);
         res.send("Successfully uploaded")
+        }
+
     }
 
     // [GET] /course/management/current-course
