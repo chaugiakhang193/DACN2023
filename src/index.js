@@ -27,5 +27,4 @@ dotenv.config();
 route(app);
 
 
-app.listen(port, () =>{console.log("Start server listening on port " + port)
-});
+app.listen(port, () =>{console.log("Start server listening on port " + port)});
