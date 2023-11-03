@@ -1,5 +1,6 @@
 const Course = require("../../model/Course")
 const Account = require("../../model/Account");
+const Asset = require("../../model/Asset");
 const CloudinaryHelper = require('../../Controller/Middleware/CloudinaryHelper')
 const cloudinary = require('cloudinary').v2;
 
@@ -129,7 +130,7 @@ class CourseController {
         const CurrentUserID = req.cookies.User._id;
         
         let CourseInfo =  Course.find({idAuthor:CurrentUserID, IsStudent:false})
-        
+        const message = "HELLO"
         CourseInfo.sort({
             DateCreateAt: 'desc'
         })
@@ -165,7 +166,7 @@ class CourseController {
     }
 
     // [POST] /course/management/current-course/:codeCourse/upload-video
-    UploadVideo(req,res){
+    async UploadVideo(req,res){
         //write function upload video with cloudninary here + create model for video each course 
         //research how to use
         //maybe import cloudinary in Course controller file, maybe
@@ -181,7 +182,20 @@ class CourseController {
                 { width: 160, height: 100, crop: "crop", gravity: "south", audio_codec: "none" } ],                                   
                 eager_async: true,
                 eager_notification_url: "https://mysite.example.com/notify_endpoint" })
-        .then(result=>console.log(result));
+        .then(async result=> {
+            const CurrentUserID = req.cookies.User._id;
+            const codeCourse = req.params.codeCourse;
+            let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
+            console.log(CourseInfo._id);
+            const DataInformation = 
+            {
+                Name : req.file.originalname,
+                URL : result.url,
+                CloudinaryFolder : result.public_id,
+                idOwner : CourseInfo._id,
+            }
+            await Asset.insertMany([DataInformation]);
+        });
                 
         if(!fileData){
             console.log("No file data") 
@@ -193,17 +207,26 @@ class CourseController {
 
     }
 
-    // [GET] /course/management/current-course
+    // [GET] /course/management/current-course/:codeCourse
     async CurrentCourseDetail(req, res) {
         const CurrentUserID = req.cookies.User._id;
         const codeCourse = req.params.codeCourse
 
-        let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse})
-
-        const Name = CourseInfo.Name;
-        const Description = CourseInfo.Description;
-
-        res.render("Course/CourseDetail", {codeCourse: codeCourse, Name: Name, Description: Description});
+        let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
+        
+        let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+        
+        
+        AssetInfo.sort({
+            CreateAt: 'desc'
+        })
+        .then(AssetInfoS =>{
+            
+            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+            res.render("Course/CourseDetail", {AssetInfoS:AssetInfoS, codeCourse: codeCourse, Name: CourseInfo.Name, Description: CourseInfo.Description});
+        })
+        
+       // res.render("Course/CourseDetail", {codeCourse: codeCourse, Name: Name, Description: Description});
     }
 
     //[GET] /course/create-course
