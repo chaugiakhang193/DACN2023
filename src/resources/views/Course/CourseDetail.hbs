@@ -9,16 +9,25 @@
 <body>
     <h2>THIS IS COURSE DETAIL</h2>
 
-        
+       
         <div>
             <h4>[{{codeCourse}}] {{Name}}</h4>    
             <b style="margin:0;display:inline;float:left">Description: </b> 
-            <p style="margin:0;display:inline:float:right" > {{Description}}</p>
+            <p style="margin:0;display:inline:float:right" > {{this.Description}}</p>
         </div>
-       <div>
-             <a href="/course/management/current-course/{{codeCourse}}/upload-video">Upload Video!</a>
+        <div>
+            <a href="/course/management/current-course/{{codeCourse}}/upload-video">Upload Video!</a>
         </div>
         
+
+
+        {{#each AssetInfoS}}
+            <div>
+                <br>
+                <a class = "btn btn-link" href="{{this.URL}}">{{this.URL}}</a>
+                <br>
+            </div>
+        {{/each}}
        
     <div class="mt-4">
          
