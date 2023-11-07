@@ -1,8 +1,10 @@
 const Course = require("../../model/Course")
 const Account = require("../../model/Account");
 const Asset = require("../../model/Asset");
+const Comment = require("../../model/Comment");
 const CloudinaryHelper = require('../../Controller/Middleware/CloudinaryHelper')
 const cloudinary = require('cloudinary').v2;
+const moment = require ("moment")
 
 class CourseController {
     // [POST] /course/management/:id/delete
@@ -13,6 +15,7 @@ class CourseController {
             const CourseDelete = await Course.findOne({_id: req.params.id});
             const codeCourse = await CourseDelete.codeCourse
             await Course.deleteMany({codeCourse: codeCourse})
+            await Comment.deleteMany({idCourse : req.params.id})
             //await CourseDelete.deleteOne({_id: req.params.id});
             res.redirect('back')
         }
@@ -160,9 +163,16 @@ class CourseController {
     }
 
     // [GET] /course/management/current-course/:codeCourse/upload-video
-    UploadVideoForm(req,res){
+    async UploadVideoForm(req,res){
+        const codeCourse = req.params.codeCourse;
+        const CurrentUserID = req.cookies.User._id;
+        const CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
+        if(!CourseInfo){
+            res.send("You not teach this course, can not upload any video. Please contact to the teacher who teach this course.")
+        }
+        else{
         const codeCourse = req.params.codeCourse
-        res.render("Course/UploadVideo", {codeCourse:codeCourse});
+        res.render("Course/UploadVideo", {codeCourse:codeCourse});}
     }
 
     // [POST] /course/management/current-course/:codeCourse/upload-video
@@ -207,25 +217,219 @@ class CourseController {
 
     }
 
+    // [POST] /management/current-course/:codeCourse/upload-comment
+    async UploadComment(req, res){
+        try{
+                const CurrentUserID = req.cookies.User._id;
+
+                const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+                const AuthorName = CurrentUserInfo.Realname;
+
+                const codeCourse = req.params.codeCourse;
+                let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse}); 
+                const idCourse = CourseInfo._id;
+
+                const Content = req.body.Content;
+                //format date time for display
+                        const today = new Date();
+                        const yyyy = today.getFullYear();
+                        let mm = today.getMonth() + 1; 
+                        let dd = today.getDate();
+                        if (dd < 10) dd = '0' + dd;
+                        if (mm < 10) mm = '0' + mm;
+                        const formattedToday = dd + '/' + mm + '/' + yyyy;   
+                        const CreateAt = formattedToday + " - " + moment().format('LT');
+
+                const Data = {
+                    idAuthor: CurrentUserID,
+                    RealNameAuthor: AuthorName,
+                    idCourse: idCourse,
+                    Content: Content,
+                    CreateAt: CreateAt,
+                }
+                await Comment.insertMany([Data]);
+
+                res.redirect('back')}
+        catch (error) {
+            console.log(error);
+            res.send("<h1>Some thing went wrong</h1>")
+        }
+
+    }
+
+
+    // [GET] /course/management/current-course/view-video/:id
+    async ViewAVideo(req,res){
+        try{
+            const idVideo = req.params.id;
+            const AVideo = await Asset.findOne({_id:idVideo});
+            res.render("Course/ViewVideo", {AVideo: AVideo});
+        }
+        catch(error){
+            res.send("<h1>Sorry, this video is not avaible. Please try again later</h1>")
+        }
+    }
+
+    // [POST] /course/management/current-course/:codeCourse/delete-comment/:id
+    async DeleteComment(req, res){
+        try{
+            const idComment = req.params.id;
+            const DeleteComment = await Comment.findOne({_id: idComment})
+            const idAuthor = DeleteComment.idAuthor;
+            const CurrentUserID = req.cookies.User._id;
+            if(CurrentUserID == idAuthor){
+                await Comment.deleteOne({_id: idComment});
+                res.redirect('back')
+            }
+            else{
+                res.send("This is not your comment, you can not delete this comment")
+            }
+        }
+        catch(error)
+        {
+            res.send("Some thing went wrong, you can not delete this comment")
+        }
+    }
+
+    //[GET] [TEMP]  /course/management/current-course/:codeCourse/edit-comment/:id  
+    RenderEditCommentForm(req,res){
+        const idComment = req.params.id;
+        res.render("Comment/EditForm", {id: idComment})
+    }
+
+    //[POST] [TEMP]  /course/management/current-course/:codeCourse/edit-comment/:id  
+    async EditComment(req,res){
+        try{
+            const idComment = req.params.id;
+            const EditComment = await Comment.findOne({_id: idComment})
+            const idAuthor = EditComment.idAuthor;
+            const CurrentUserID = req.cookies.User._id;
+            const EditContent = req.body.Content;
+            const today = new Date();
+                        const yyyy = today.getFullYear();
+                        let mm = today.getMonth() + 1; 
+                        let dd = today.getDate();
+                        if (dd < 10) dd = '0' + dd;
+                        if (mm < 10) mm = '0' + mm;
+                        const formattedToday = dd + '/' + mm + '/' + yyyy;   
+                        const CreateAt = formattedToday + " - " + moment().format('LT') + " (Edited)";
+
+            if(CurrentUserID == idAuthor){
+                await EditComment.updateOne({
+                    Content : EditContent,
+                    CreateAt: CreateAt
+                })
+                res.redirect('back')
+            }
+            else{
+                res.send("This is not your comment, you can not edit this comment")
+            }
+        }
+        catch(error)
+        {
+            res.send("Some thing went wrong, you can not edit this comment")
+        }
+    }
+
     // [GET] /course/management/current-course/:codeCourse
     async CurrentCourseDetail(req, res) {
+        try{
+
+        
         const CurrentUserID = req.cookies.User._id;
-        const codeCourse = req.params.codeCourse
+        const codeCourse = req.params.codeCourse;
 
         let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
-        
-        let AssetInfo = Asset.find({idOwner: CourseInfo._id});
-        
-        
-        AssetInfo.sort({
-            CreateAt: 'desc'
-        })
-        .then(AssetInfoS =>{
+        if(!CourseInfo){
+            let CourseInfo =  await Course.findOne({idAuthor:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
+            let AssetInfo = Asset.find({idOwner: CourseInfo._id});
             
-            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
-            res.render("Course/CourseDetail", {AssetInfoS:AssetInfoS, codeCourse: codeCourse, Name: CourseInfo.Name, Description: CourseInfo.Description});
-        })
+            const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+            // username who is comment
+            const UserName = CurrentUserInfo.Realname;
+
+            let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
+
+            CommentInACourse.sort({
+                CreateAt: 'desc'
+            }).then(CommentS =>
+                {
+                    CommentS = CommentS.map(Comment=>Comment.toObject()) 
+                    AssetInfo.sort({
+                        CreateAt: 'desc'
+                    })
+                        .then(AssetInfoS =>{
+                            
+                            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                            res.render("Course/CourseDetail",
+                                        {
+                                            AssetInfoS:AssetInfoS,
+                                            CommentS: CommentS,
+                                            codeCourse: codeCourse,
+                                            Name: CourseInfo.Name,
+                                            Description: CourseInfo.Description,
+                                            UserName:UserName
+                                        }
+                                    );
+                        })
+                }
+                
+            )
+        }
+
+        else{
+            let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+            
+            const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+            // username who is comment
+            const UserName = CurrentUserInfo.Realname;
+
+            let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
+
+            CommentInACourse.sort({
+                CreateAt: 'desc'
+            }).then(CommentS =>
+                {
+                    CommentS = CommentS.map(Comment=>Comment.toObject()) 
+                    AssetInfo.sort({
+                        CreateAt: 'desc'
+                    })
+                        .then(AssetInfoS =>{
+                            
+                            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                            res.render("Course/CourseDetail",
+                                        {
+                                            AssetInfoS:AssetInfoS,
+                                            CommentS: CommentS,
+                                            codeCourse: codeCourse,
+                                            Name: CourseInfo.Name,
+                                            Description: CourseInfo.Description,
+                                            UserName:UserName
+                                        }
+                                    );
+                        })
+                }
+                
+            )}
         
+        }
+        catch(error){
+            //case no comment, case no video for teacher
+
+            const CurrentUserID = req.cookies.User._id;
+            const codeCourse = req.params.codeCourse;
+            const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+            let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
+            const UserName = CurrentUserInfo.Realname;  
+            res.render("Course/CourseDetail",
+                                    {
+                                        codeCourse: codeCourse,
+                                        Name: CourseInfo.Name,
+                                        Description: CourseInfo.Description,
+                                        UserName:UserName
+                                    }
+                                );
+        }
        // res.render("Course/CourseDetail", {codeCourse: codeCourse, Name: Name, Description: Description});
     }
 

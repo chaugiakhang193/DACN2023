@@ -23,6 +23,21 @@ router.get('/management/current-course/:codeCourse/upload-video',Middleware.Veri
 // [POST] /course/management/current-course/:codeCourse/upload-video
 router.post('/management/current-course/:codeCourse/upload-video', Middleware.VerifyTokenandTeacher ,CloudinaryHelper.single('mp4'),CourseController.UploadVideo)
 
+// [POST] /course/management/current-course/:codeCourse/upload-comment
+router.post('/management/current-course/:codeCourse/upload-comment', Middleware.VerifyTokenandTeacher ,CourseController.UploadComment)
+
+// [GET] /course/management/current-course/view-video/:id
+router.get('/management/current-course/view-video/:id', Middleware.VerifyTokenandTeacher ,CourseController.ViewAVideo)
+
+// [POST] /course/management/current-course/delete-comment/:id
+router.post('/management/current-course/delete-comment/:id', Middleware.VerifyTokenandTeacher ,CourseController.DeleteComment)
+
+//[GET] [TEMP]  /course/management/current-course/edit-comment/:id  
+router.get('/management/current-course/edit-comment/:id', Middleware.VerifyTokenandTeacher ,CourseController.RenderEditCommentForm)
+
+//[POST] [TEMP]  /course/management/current-course/edit-comment/:id  
+router.post('/management/current-course/edit-comment/:id', Middleware.VerifyTokenandTeacher ,CourseController.EditComment)
+
 // [GET] /course/management/current-course/:codeCourse
 router.get('/management/current-course/:codeCourse', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourseDetail)
 
