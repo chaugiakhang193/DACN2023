@@ -16,6 +16,7 @@ class CourseController {
             const codeCourse = await CourseDelete.codeCourse
             await Course.deleteMany({codeCourse: codeCourse})
             await Comment.deleteMany({idCourse : req.params.id})
+            await Asset.deleteMany({idOwner : req.params.id})
             //await CourseDelete.deleteOne({_id: req.params.id});
             res.redirect('back')
         }
@@ -162,7 +163,7 @@ class CourseController {
         
     }
 
-    // [GET] /course/management/current-course/:codeCourse/upload-video
+    // [GET] /course/:codeCourse/upload-video
     async UploadVideoForm(req,res){
         const codeCourse = req.params.codeCourse;
         const CurrentUserID = req.cookies.User._id;
@@ -181,7 +182,8 @@ class CourseController {
         //research how to use
         //maybe import cloudinary in Course controller file, maybe
         const fileData = req.file.path
-
+        const Title = req.body.Title
+        const Description = req.body.Description
         cloudinary.uploader
         .upload(fileData, 
              { resource_type: "video", 
@@ -203,6 +205,9 @@ class CourseController {
                 URL : result.url,
                 CloudinaryFolder : result.public_id,
                 idOwner : CourseInfo._id,
+                Title : Title,
+                Description: Description,
+
             }
             await Asset.insertMany([DataInformation]);
         });
@@ -217,7 +222,7 @@ class CourseController {
 
     }
 
-    // [POST] /management/current-course/:codeCourse/upload-comment
+    // [POST] /course/:idCourse/upload-comment
     async UploadComment(req, res){
         try{
                 const CurrentUserID = req.cookies.User._id;
@@ -225,9 +230,9 @@ class CourseController {
                 const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
                 const AuthorName = CurrentUserInfo.Realname;
 
-                const codeCourse = req.params.codeCourse;
-                let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse}); 
-                const idCourse = CourseInfo._id;
+               // const codeCourse = req.params.codeCourse;
+                //let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse}); 
+                const idCourse = req.params.idCourse;
 
                 const Content = req.body.Content;
                 //format date time for display
@@ -258,14 +263,46 @@ class CourseController {
     }
 
 
-    // [GET] /course/management/current-course/view-video/:id
+    // [GET] /course/view-video/:id
     async ViewAVideo(req,res){
         try{
             const idVideo = req.params.id;
             const AVideo = await Asset.findOne({_id:idVideo});
-            res.render("Course/ViewVideo", {AVideo: AVideo});
+            const idOwner = AVideo.idOwner;
+            const CourseInfo = await Course.findOne({_id:idOwner});
+            const codeCourse = CourseInfo.codeCourse;
+            const CurrentUserID = req.cookies.User._id; 
+            const StudentInfo = await Account.findOne({_id: CurrentUserID});
+            const CheckStudentAccount = StudentInfo.teacher; //false is student account
+            const idAVideo = AVideo._id; 
+            const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID,codeCourse:codeCourse});
+            if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
+                res.send("You have not registered this course yet. Please try again later.");
+            }
+            const Description = AVideo.Description;
+            const Title = AVideo.Title;
+            const URL = AVideo.URL;
+            let CommentInACourse = Comment.find({idCourse: idAVideo})
+
+            CommentInACourse.sort({
+                CreateAt: 'desc'
+            }).then(CommentS =>
+                {
+                    CommentS = CommentS.map(Comment=>Comment.toObject()) 
+                    res.render("Course/ViewVideo", 
+                        {Description: Description, 
+                         Title: Title, 
+                         URL: URL,
+                         idCourse: idAVideo,
+                         CommentS:CommentS,
+                        });
+                })
+
+            
+            
         }
         catch(error){
+            console.log(error)
             res.send("<h1>Sorry, this video is not avaible. Please try again later</h1>")
         }
     }
@@ -331,102 +368,130 @@ class CourseController {
         }
     }
 
-    // [GET] /course/management/current-course/:codeCourse
-    async CurrentCourseDetail(req, res) {
+    // [GET] /course/:codeCourse
+    async CourseDetail(req, res) {
         try{
-
-        
-        const CurrentUserID = req.cookies.User._id;
-        const codeCourse = req.params.codeCourse;
-
-        let CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
-        if(!CourseInfo){
-            let CourseInfo =  await Course.findOne({idAuthor:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
-            let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+            const codeCourse = req.params.codeCourse;
+            const CurrentUserID = req.cookies.User._id;
+            const StudentInfo = await Account.findOne({_id: CurrentUserID});
+            const CheckStudentAccount = StudentInfo.teacher; //false is student account
+            const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
             
-            const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
-            // username who is comment
-            const UserName = CurrentUserInfo.Realname;
-
-            let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
-
-            CommentInACourse.sort({
-                CreateAt: 'desc'
-            }).then(CommentS =>
-                {
-                    CommentS = CommentS.map(Comment=>Comment.toObject()) 
-                    AssetInfo.sort({
-                        CreateAt: 'desc'
-                    })
-                        .then(AssetInfoS =>{
-                            
-                            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
-                            res.render("Course/CourseDetail",
-                                        {
-                                            AssetInfoS:AssetInfoS,
-                                            CommentS: CommentS,
-                                            codeCourse: codeCourse,
-                                            Name: CourseInfo.Name,
-                                            Description: CourseInfo.Description,
-                                            UserName:UserName
-                                        }
-                                    );
-                        })
-                }
-                
-            )
-        }
-
-        else{
-            let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+            if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
+                res.send("You have not registered this course yet. Please try again later.");
+            }
             
-            const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
-            // username who is comment
-            const UserName = CurrentUserInfo.Realname;
 
-            let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
+            
 
-            CommentInACourse.sort({
-                CreateAt: 'desc'
-            }).then(CommentS =>
-                {
-                    CommentS = CommentS.map(Comment=>Comment.toObject()) 
-                    AssetInfo.sort({
-                        CreateAt: 'desc'
-                    })
-                        .then(AssetInfoS =>{
-                            
-                            AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
-                            res.render("Course/CourseDetail",
-                                        {
-                                            AssetInfoS:AssetInfoS,
-                                            CommentS: CommentS,
-                                            codeCourse: codeCourse,
-                                            Name: CourseInfo.Name,
-                                            Description: CourseInfo.Description,
-                                            UserName:UserName
-                                        }
-                                    );
+            let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
+
+            if(!CourseInfo){
+                let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
+                let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+                let idCourse = CourseInfo._id;
+              
+                const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+                // username who is comment
+                const UserName = CurrentUserInfo.Realname;
+
+                let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
+
+                CommentInACourse.sort({
+                    CreateAt: 'desc'
+                }).then(CommentS =>
+                    {
+                        CommentS = CommentS.map(Comment=>Comment.toObject()) 
+                        AssetInfo.sort({
+                            CreateAt: 'desc'
                         })
-                }
-                
-            )}
-        
+                            .then(AssetInfoS =>{
+                                
+                                AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                                res.render("Course/CourseDetail",
+                                            {
+                                                AssetInfoS:AssetInfoS,
+                                                CommentS: CommentS,
+                                                idCourse: idCourse,
+                                                Name: CourseInfo.Name,
+                                                Description: CourseInfo.Description,
+                                                UserName:UserName,
+                                                codeCourse: codeCourse
+                                            }
+                                        );
+                            })
+                    }
+                    
+                )
+            }
+
+            else{
+                const StudentInfo = await Account.findOne({_id: CurrentUserID});
+                const CheckStudentAccount = StudentInfo.teacher; //false is student account
+                const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
+                if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
+                    res.send("You have not registered this course yet. Please try again later.");}
+
+                let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
+                let AssetInfo = Asset.find({idOwner: CourseInfo._id});
+                let idCourse = CourseInfo._id;
+                const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+                // username who is comment
+                const UserName = CurrentUserInfo.Realname;
+
+                let CommentInACourse = Comment.find({idCourse: CourseInfo._id})
+
+                CommentInACourse.sort({
+                    CreateAt: 'desc'
+                }).then(CommentS =>
+                    {
+                        CommentS = CommentS.map(Comment=>Comment.toObject()) 
+                        AssetInfo.sort({
+                            CreateAt: 'desc'
+                        })
+                            .then(AssetInfoS =>{
+                                
+                                AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                                res.render("Course/CourseDetail",
+                                            {
+                                                AssetInfoS:AssetInfoS,
+                                                CommentS: CommentS,
+                                                idCourse: idCourse,
+                                                Name: CourseInfo.Name,
+                                                Description: CourseInfo.Description,
+                                                UserName:UserName,
+                                                codeCourse: codeCourse
+                                            }
+                                        );
+                            })
+                    }
+                    
+                )}
+            
         }
         catch(error){
+            console.log(error)  
             //case no comment, case no video for teacher
-
-            const CurrentUserID = req.cookies.User._id;
             const codeCourse = req.params.codeCourse;
+            const CurrentUserID = req.cookies.User._id;
             const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
+            const StudentInfo = await Account.findOne({_id: CurrentUserID});
+            const CheckStudentAccount = StudentInfo.teacher; //false is student account
+            const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
+            
+            if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
+                res.send("You have not registered this course yet. Please try again later.");
+            }
             let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
+            let idCourse = CourseInfo._id;
             const UserName = CurrentUserInfo.Realname;  
             res.render("Course/CourseDetail",
                                     {
-                                        codeCourse: codeCourse,
+                                        idCourse: idCourse,
                                         Name: CourseInfo.Name,
                                         Description: CourseInfo.Description,
-                                        UserName:UserName
+                                        UserName:UserName,
+                                        codeCourse: codeCourse,
                                     }
                                 );
         }

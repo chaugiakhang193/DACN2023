@@ -5,7 +5,7 @@ const Middleware = require('../../Controller/Middleware/MiddlewareController')
 const StudentController = require('../../Controller/Student/StudentController');
 
 //[GET] student/dkhp
-router.get('/dkhp', Middleware.VerifyTokenandStudent ,StudentController.RenderDKHP)
+router.get('/dkhp',StudentController.RenderDKHP)
 
 //[GET] student/dkhp/mon-da-dang-ky
 router.get('/dkhp/mon-da-dang-ky', Middleware.VerifyTokenandStudent ,StudentController.RenderSuccessRegister)

@@ -16,7 +16,7 @@
             <p style="margin:0;display:inline:float:right" > {{this.Description}}</p>
         </div>
         <div>
-            <a href="/course/management/current-course/{{codeCourse}}/upload-video">Upload Video!</a>
+            <a href="/course/{{codeCourse}}/upload-video">Upload Video!</a>
         </div>
         
 
@@ -24,7 +24,7 @@
         {{#each AssetInfoS}}
             <div>
                 <br>
-                <a class = "btn btn-link" href="/course/management/current-course/view-video/{{this._id}}">{{this.URL}}</a>
+                <a class = "btn btn-link" href="/course/view-video/{{this._id}}">{{this.Title}}</a>
                 <br>
             </div>
         {{/each}}
@@ -32,7 +32,7 @@
         <br>
         <br>
         <br>
-        <form action="/course/management/current-course/{{codeCourse}}/upload-comment" method="post" >
+        <form action="/course/{{idCourse}}/upload-comment" method="post" >
             <b for="UserName">{{UserName}}</b><br>
             <input  type="text" id ="UserName" name="Content" required placeholder="Write something here" >
             
@@ -47,8 +47,8 @@
                         <b style="margin:0;display:inline;float:left" > {{this.RealNameAuthor}} - </b> 
                         <p style="margin:0;display:inline:float:right" > [{{this.CreateAt}}]  </p>
                         <p>{{this.Content}}</p>
-                        <a class = "btn btn-link" href="./edit-comment/{{this._id}}">Sửa comment này</a>
-                        <a class = "btn btn-link" href="./delete-comment/{{this._id}}" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}">Xoá comment này</a>
+                        <a class = "btn btn-link" href="/course/edit-comment/{{this._id}}">Sửa comment này</a>
+                        <a class = "btn btn-link" href="/course/delete-comment/{{this._id}}" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}">Xoá comment này</a>
                     </div>
             </div>
         {{/each}}
@@ -92,7 +92,7 @@ $('#delete-announcement').on('show.bs.modal', function (event) {
     });
     var btnDelete = document.getElementById('btn-delete')
     btnDelete.onclick = function(){
-        deleteForm.action = '/course/management/current-course/delete-comment/'+ id;
+        deleteForm.action = '/course/delete-comment/'+ id;
         deleteForm.submit();
     }
 

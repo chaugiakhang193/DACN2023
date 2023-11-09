@@ -14,6 +14,9 @@ const Asset = new Schema({
     idOwner:{
         type:String,
     },
+    Title:{
+        type:String,
+    },
     Description:{
         type:String,
     },
