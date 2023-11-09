@@ -10,8 +10,14 @@
 <body>
         <h2>Upload Video</h2>
         <br> 
-        <form action="/course/management/current-course/{{codeCourse}}/upload-video" method="post" enctype="multipart/form-data">
+        <form action="/course/{{codeCourse}}/upload-video" method="post" enctype="multipart/form-data">
+                
+                <div><input  type="text" name="Title" placeholder="Write video's title here" ></div>
+                <br>
+                <div><input  type="text" name="Description" placeholder="Description" ></div>
+                <br>
                 <input type="file" name = "mp4">
+                <br>
                 <br>
                 <input type="submit" value = "Upload">
         </form>
