@@ -12,7 +12,7 @@ const templatePath = path.join(__dirname, 'resources/views');
 const route = require('./route');
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, './')));
+app.use(express.static(path.join(__dirname, '../')));
 app.engine("hbs", hbs.engine());
 app.set("view engine","hbs");
 app.set("views", templatePath);

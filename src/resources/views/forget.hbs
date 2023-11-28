@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../.././src/public/css/Auth/login.css">
 </head>
 <body>
-        <h2>FORGET PASSWORD</h2>
-        <form action="/forget" method="post" >
+        <div class="login-container d-flex align-items-center justify-content-center">
            
-             <input type="email" name="email" required placeholder="email">    
-             <p> {{message}}</p>
-             <input type="submit" value = "Send">        
-         
-            
-        </form>
+            <form action="/forget" method="post" class ="login-form text-center">
+                <h2>FORGET PASSWORD</h2>
+                <input class ="form-control" type="email" name="email" required placeholder="email">    
+                <p> {{message}}</p>
+                <button class ="btn btn-primary btn-block" type="submit" value = "Send">Send</button>     
+            </form>
+        </div>
 </body>
 </html>
