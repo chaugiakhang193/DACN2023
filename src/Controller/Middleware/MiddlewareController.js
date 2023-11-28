@@ -71,7 +71,8 @@ const Middleware = {
         }
         //not have accessToken and refreshToken 
         else{
-            res.send("You're are not authenticated, Please login!!!");
+            res.render("login", {message:"You need login to use this feature, Please login!!!" }); 
+            //res.send("You're are not authenticated, Please login!!!");
         }
     },
 

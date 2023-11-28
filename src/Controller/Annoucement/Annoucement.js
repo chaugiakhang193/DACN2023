@@ -18,6 +18,7 @@ class AnnoucementController {
         }
     }
 
+    // [POST] /announcement/:id/edit
     async EditAnnouncement (req,res){
         try{
             const today = new Date();
@@ -33,7 +34,7 @@ class AnnoucementController {
             const Title = req.body.Title;
             const Description = req.body.Description;
             const Content  = req.body.Content
-            const UpdateAt = formattedToday + " - " + moment().format('LT');
+            const UpdateAt =  formattedToday + " - " + moment().format('LT') + "[EDITED]";
             const DateUpdateAt = new Date();
             await DetailPage.updateOne({
                 Title:Title,
@@ -101,7 +102,8 @@ class AnnoucementController {
             const Title = DetailPage.Title.toUpperCase();
             const Description = DetailPage.Description;
             const Content  = DetailPage.Content;
-            const CreateAt = DetailPage.CreateAt;
+            const CreateAt = DetailPage.UpdateAt;
+            
             let AuthorName
             try{
                 const Author= await Account.findOne({_id: DetailPage.Author});

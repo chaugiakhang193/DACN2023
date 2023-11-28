@@ -5,26 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../../.././src/public/css/Auth/signup.css">
 </head>
-<body>
-        <h2>SIGNUP</h2>
-        <form action="/signup" method="post" >
-            <input  maxlength="8" type="text" name="name" required placeholder="Username" >
-            <br> 
-            <input maxlength="16" type="password" name="password"required placeholder="********">
-            <br> 
-            <input type="email" name="email" required placeholder="email">
-            <br>
-            <input type="text" name="Realname" required placeholder="Real Name" >
-            <br> 
-                <select name="teacher">
-                    <option value="true" >Giáo viên</option>
-                    <option value="false">Sinh viên</option>
-                </select>
+<body>  
+        <div class="login-container d-flex align-items-center justify-content-center">
+        
+            <form action="/signup" method="post"  class ="login-form text-center">
+                <h2>SIGN UP</h2>
+                <input class ="form-control" maxlength="8" type="text" name="name" required placeholder="Username" >
+                <br> 
+                <input class ="form-control" maxlength="16" type="password" name="password"required placeholder="********">
+                <br> 
+                <input class ="form-control" type="email" name="email" required placeholder="Email">
+                <br>
+                <input class ="form-control" type="text" name="Realname" required placeholder="Your name" >
+                <br> 
+                    <select  class ="form-control" name="teacher">
+                        <option value="true" >Giáo viên</option>
+                        <option value="false">Sinh viên</option>
+                    </select>
 
-            <p> {{message}}</p>
-            <input type="submit" value = "Sign Up">
-        </form>
-
+                <p> {{message}}</p>
+                <button class ="btn btn-primary btn-block" type="submit" value = "Sign Up">Sign Up</button>
+            </form>
+        </div>
 </body>
 </html>

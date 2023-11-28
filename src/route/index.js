@@ -33,7 +33,6 @@ function route(app){
             
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
-            
             res.redirect('/login');
     });
 
