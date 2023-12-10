@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  email: chaugiakhang193@gmail.com
+  emailPassword: jopqlgwcgpworise
+  JWT_SECRET: D81kEkhYD9yQV6pYIFkN
+  JWT_SECRET_REFRESH: u4jc9OQCZDY1D8Wzax5U

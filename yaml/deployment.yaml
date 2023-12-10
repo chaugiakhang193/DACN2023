@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app-container
+        image: chaukhang1903/nt533:web
+        ports:
+        - containerPort: 3000  
+        env:
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: MONGODB_URL
+        - name: email
+          valueFrom:
+            configMapKeyRef:
+              name: configmap
+              key: email
+        - name: emailPassword
+          valueFrom:
+            configMapKeyRef:
+              name: configmap
+              key: emailPassword
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: configmap
+              key: JWT_SECRET
+        - name: JWT_SECRET_REFRESH
+          valueFrom:
+            configMapKeyRef:
+              name: configmap
+              key: JWT_SECRET_REFRESH
+            
+            
