@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
-const mongodbUriBase64 = process.env.MONGODB_URL
+const mongodbUriBase64 = process.env.mongodb-secret_MONGODB_URL
 const mongodbUri = Buffer.from(mongodbUriBase64, 'base64').toString('utf-8');
 async function connect(){
    
