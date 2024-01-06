@@ -8,158 +8,46 @@
     <title>Document</title>
 </head>
 <body>
-        <h2>Edit a Course</h2>
-        <br> 
-        <form action="/course/management/{{this.id}}/edit" method="post" >
+        <div class="login-container d-flex align-items-center justify-content-center">
+        
+        
+        <form action="/course/management/{{this.id}}/edit" method="post" class ="text-center form-content" >
+            <h2>Chỉnh sửa thông tin khoá học</h2>
 
 
-
-            <label for= "Name">Tên môn học</label>
+            
             <div class = "form group">
-                <input type="text" name="Name" id = "Name" value= "{{Name}}">
+                <label for= "Name">Tên môn học</label>
+                <input class = "form-control"  type="text" name="Name" id = "Name" value= "{{Name}}">
             </div>
             
 
             <label for= "codeCourse">Mã môn</label>
             <div class = "form group">
-                <input  type="text" name="codeCourse" id = "codeCourse"value= "{{codeCourse}}"> 
+                <input class = "form-control"  type="text" name="codeCourse" id = "codeCourse"value= "{{codeCourse}}"> 
             </div>
 
             <label for= "Description">Mô tả môn học</label>
             <div class = "form group">
-                <textarea rows="5" cols="23" type="text" name="Description" id ="Description">{{Description}}</textarea>
+                <textarea  class = "form-control" rows="5" cols="23" type="text" name="Description" id ="Description">{{Description}}</textarea>
             </div>    
-
-            <label for= "StartAt">Ngày bắt đầu môn học</label>
-            <div class = "form group">
-                <select name="DayStart" id = "DayStart">
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                    <option value="13" >13</option>
-                    <option value="14" >14</option>
-                    <option value="15" >15</option>
-                    <option value="16" >16</option>
-                    <option value="17" >17</option>
-                    <option value="18" >18</option>
-                    <option value="19" >19</option>
-                    <option value="20" >20</option>
-                    <option value="21" >21</option>
-                    <option value="22" >22</option>
-                    <option value="23" >23</option>
-                    <option value="24" >24</option>
-                    <option value="25" >25</option>
-                    <option value="26" >26</option>
-                    <option value="27" >27</option>
-                    <option value="28" >28</option>
-                    <option value="29" >29</option>
-                    <option value="30" >30</option>
-                    <option value="31" >31</option>
-                </select>
-                <select name="MonthStart" id = "MonthStart">
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                </select>
-                <select name="YearStart" id = "YearStart">
-                    <option value="2023" >2023</option>
-                    <option value="2024" >2024</option>
-                    <option value="2025" >2025</option>
-                    <option value="2026" >2026</option>
-                    <option value="2027" >2027</option>
-                    <option value="2028" >2028</option>
-                    <option value="2029" >2029</option>
-                </select>
-              
-            </div>    
-
-            <label for= "EndAt">Ngày kết thúc môn học</label>
-            <div class = "form group">
-                <select name="DayEnd" id = "DayEnd">
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                    <option value="13" >13</option>
-                    <option value="14" >14</option>
-                    <option value="15" >15</option>
-                    <option value="16" >16</option>
-                    <option value="17" >17</option>
-                    <option value="18" >18</option>
-                    <option value="19" >19</option>
-                    <option value="20" >20</option>
-                    <option value="21" >21</option>
-                    <option value="22" >22</option>
-                    <option value="23" >23</option>
-                    <option value="24" >24</option>
-                    <option value="25" >25</option>
-                    <option value="26" >26</option>
-                    <option value="27" >27</option>
-                    <option value="28" >28</option>
-                    <option value="29" >29</option>
-                    <option value="30" >30</option>
-                    <option value="31" >31</option>
-                </select>
-                <select name="MonthEnd" id = "MonthEnd">
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                    <option value="3" >3</option>
-                    <option value="4" >4</option>
-                    <option value="5" >5</option>
-                    <option value="6" >6</option>
-                    <option value="7" >7</option>
-                    <option value="8" >8</option>
-                    <option value="9" >9</option>
-                    <option value="10" >10</option>
-                    <option value="11" >11</option>
-                    <option value="12" >12</option>
-                </select>
-                <select name="YearEnd" id = "YearEnd">
-                    <option value="2023" >2023</option>
-                    <option value="2024" >2024</option>
-                    <option value="2025" >2025</option>
-                    <option value="2026" >2026</option>
-                    <option value="2027" >2027</option>
-                    <option value="2028" >2028</option>
-                    <option value="2029" >2029</option>
-                </select>
-              
-            </div>    
-            <label for= "Teacher">Tên Giáo Viên</label>
-            <div class = "form group">
-                <input  type="text" name="Teacher" id = "Teacher"value= "{{Teacher}}"> 
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 20px;">
+                <div class="form group"style="margin-right: 20px;">
+                    <label for="start">Ngày bắt đầu:</label>
+                    <input type="date" id="start" name="Start" value="2023-12-20" min="2023-01-01" max="2024-12-31" />
+                </div>
+            
+                <div class="form group "style="margin-right: 20px;">
+                   
+                    <label  for="start">Ngày kết thúc:</label>
+                    <input type="date" id="start" name="End" value="2023-12-20" min="2023-01-01" max="2024-12-31" />
+                </div>
             </div>
             <input type ="hidden" name="OldCodeCourse" value = "{{OldCodeCourse}}">
                 <p> {{message}}</p>
-                <input type="submit" value = "Post">
+                <input class ="btn btn-primary btn-block" type="submit" value = "Chỉnh sửa thông tin khoá học">
         </form>
-
+</div>
         <a href="/home">Back to Home</a>
 
         

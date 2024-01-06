@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>THIS IS COURSE ALREADY CREATE</h2>
+    <h2>QUẢN LÝ KHOÁ HỌC CỦA TÔI</h2>
          <table class="table">
         <thead>
             <tr>
@@ -15,8 +15,8 @@
             <th scope="col">Môn học</th>
             <th scope="col">Mã môn</th>
             <th scope="col">Giảng viên phụ trách</th>
-            <th scope="col">Thời gian môn học</th>
-            <th scope="col">Hành động</th>
+            <th scope="col"style="text-align: center;">Thời gian môn học</th>
+            <th scope="col"style="text-align: center;">Hành động</th>
             </tr>
         </thead>    
     <tbody> 
@@ -25,14 +25,14 @@
             <div>
                     <tr>
                       
-                        <td><a class = "btn btn-link" href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
+                        <td ><a class = "btn btn-link"  href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
                         <td>{{this.codeCourse}}</td>
                         <td>{{nameTeacher}}</td>
-                        <td>{{this.StartAt}} - {{this.EndAt}}</td>
-                        <td>
+                        <td style="text-align: center;">{{this.StartAt}} - {{this.EndAt}}</td>
+                        <td style="text-align: center;">
                             <a class = "btn btn-link" href="/course/management/{{this._id}}/edit">Sửa</a>
                         
-                            <a class = "btn btn-link" href="/course/management/{{this._id}}/delete" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Xóa</a>
+                            <a class = "btn btn-link delete-button" href="/course/management/{{this._id}}/delete" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Xóa</a>
                         </td>
                     </tr>
             </div>
@@ -50,18 +50,22 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete A Course?</h5>
+        <h5 class="modal-title">BẠN CÓ CHẮC MUỐN XOÁ KHOÁ HỌC NÀY?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>This action will delete this course</p>
+        <p>
+          <span style="color: black;">KHOÁ HỌC NÀY SẼ BỊ XOÁ</span>
+          <strong style="color: red;">VĨNH VIỄN</strong>
+        </p>
+        <p>Hãy cẩn trọng vì hành động này sẽ ảnh hưởng đến sinh viên đang theo học của bạn!</p>
         <p id = "title-content"> </p>
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-danger">Delete</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id = "btn-delete" type="button" class="btn btn-danger">XOÁ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ĐÓNG</button>
       </div>
     </div>
   </div>

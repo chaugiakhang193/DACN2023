@@ -29,43 +29,34 @@ class CourseController {
     // [GET] /course/management/:id/edit
     async EditCourse(req, res){
         try{
-            const CurrentCourse = await Course.findOne({_id: req.params.id});
-            const nameTeacher = req.body.Teacher;
-            const TeacherInfo = await Account.findOne({ Realname: nameTeacher, teacher:true});
-            
-            if(!TeacherInfo){
-                res.render("Course/Edit",
-                {message: "Can't find this teacher, please try again"});}
-            else{
+                const CurrentCourse = await Course.findOne({_id: req.params.id});
+                const Start = req.body.Start;
+                const End = req.body.End;
                 const Name = req.body.Name;
                 const codeCourse = req.body.codeCourse;
                 const Description = req.body.Description;
-                const TeacherID = TeacherInfo._id;
                 
+                var DateStartAt = new Date(Start)
+                var DateEndAt = new Date(End)
                 //Start Time 
-                var DayStart = req.body.DayStart;
-                var MonthStart = req.body.MonthStart;
-                const YearStart = req.body.YearStart;
+                var DayStart = DateStartAt.getDate();
+                var MonthStart = DateStartAt.getMonth() + 1;
+                const YearStart = DateStartAt.getFullYear();
                 //format Start Time
                 if (DayStart < 10) DayStart = '0' + DayStart;
                 if (MonthStart < 10) MonthStart = '0' + MonthStart;
                 const StartAt = DayStart + "/" + MonthStart + "/" + YearStart;
+                console.log(StartAt);
 
-                var Temp = YearStart + "-" + MonthStart + "-" + DayStart 
-                var DateStartAt = new Date(Temp)
-                
-
-
-            //End Time
-                var DayEnd = req.body.DayEnd;
-                var MonthEnd = req.body.MonthEnd;
-                const YearEnd = req.body.YearEnd;
+                //End Time
+                var DayEnd = DateEndAt.getDate();
+                var MonthEnd = DateEndAt.getMonth() + 1;
+                const YearEnd = DateEndAt.getFullYear();
                 //format End Time
                 if (DayEnd < 10) DayEnd = '0' + DayEnd;
                 if (MonthEnd < 10) MonthEnd = '0' + MonthEnd;  
                 const EndAt = DayEnd + "/" + MonthEnd + "/" + YearEnd;
-                var Temp = YearEnd + "-" + MonthEnd + "-" + DayEnd; 
-                var DateEndAt = new Date(Temp)
+               
                 const Now = Date.now();
 
             //update schema course for teacher
@@ -73,12 +64,10 @@ class CourseController {
                 Name: Name,
                 codeCourse:codeCourse,
                 Description: Description,
-                idTeacher: TeacherID,
                 StartAt: StartAt,
                 DateStartAt: DateStartAt,
                 EndAt: EndAt,
                 DateEndAt: DateEndAt,
-                nameTeacher: nameTeacher,
                 DateUpdateAt: Now
             })
             const OldCodeCourse = req.body.OldCodeCourse;
@@ -90,18 +79,16 @@ class CourseController {
                 Name: Name,
                 codeCourse:codeCourse,
                 Description: Description,
-                idTeacher: TeacherID,
                 StartAt: StartAt,
                 DateStartAt: DateStartAt,
                 EndAt: EndAt,
                 DateEndAt: DateEndAt,
-                nameTeacher: nameTeacher,
                 DateUpdateAt: Now
                 }
             )
             res.render("Course/Edit",
             {message: "Update Course's information successfully!"});
-            }
+           
         }
         catch(error){
             console.log(error.message);
@@ -506,6 +493,11 @@ class CourseController {
     //[POST] /course/create-course
     async CreateCourse(req, res) {
        try{
+        const Start = req.body.Start;
+        const End = req.body.End;
+        var DateStartAt = new Date(Start)
+        var DateEndAt = new Date(End)
+
         const Name = req.body.Name;
         const codeCourse = req.body.codeCourse;
         const Description = req.body.Description;
@@ -513,32 +505,25 @@ class CourseController {
         const Teacher = await Account.findOne({_id : idAuthor});
         const nameTeacher = Teacher.Realname;
         const nameAuthor = nameTeacher;
-        console.log(nameAuthor);
+        
         //Start Time 
-        var DayStart = req.body.DayStart;
-        var MonthStart = req.body.MonthStart;
-        const YearStart = req.body.YearStart;
+        var DayStart = DateStartAt.getDate();
+        var MonthStart = DateStartAt.getMonth() + 1;
+        const YearStart = DateStartAt.getFullYear();
         //format Start Time
         if (DayStart < 10) DayStart = '0' + DayStart;
         if (MonthStart < 10) MonthStart = '0' + MonthStart;
         const StartAt = DayStart + "/" + MonthStart + "/" + YearStart;
-
-        var Temp = YearStart + "-" + MonthStart + "-" + DayStart 
-        var DateStartAt = new Date(Temp)
-        
-
+        console.log(StartAt);
 
         //End Time
-            var DayEnd = req.body.DayEnd;
-            var MonthEnd = req.body.MonthEnd;
-            const YearEnd = req.body.YearEnd;
-            //format End Time
-            if (DayEnd < 10) DayEnd = '0' + DayEnd;
-            if (MonthEnd < 10) MonthEnd = '0' + MonthEnd;  
-            const EndAt = DayEnd + "/" + MonthEnd + "/" + YearEnd;
-            var Temp = YearEnd + "-" + MonthEnd + "-" + DayEnd; 
-            var DateEndAt = new Date(Temp)
-        
+        var DayEnd = DateEndAt.getDate();
+        var MonthEnd = DateEndAt.getMonth() + 1;
+        const YearEnd = DateEndAt.getFullYear();
+        //format End Time
+        if (DayEnd < 10) DayEnd = '0' + DayEnd;
+        if (MonthEnd < 10) MonthEnd = '0' + MonthEnd;  
+        const EndAt = DayEnd + "/" + MonthEnd + "/" + YearEnd;
 
             const data =
             {   
@@ -548,9 +533,9 @@ class CourseController {
                 idAuthor: idAuthor,
                 idTeacher: idAuthor,
                 StartAt: StartAt,
-                DateStartAt: DateStartAt,
+                DateStartAt: Start,
                 EndAt: EndAt,
-                DateEndAt: DateEndAt,
+                DateEndAt: End,
                 nameTeacher: nameTeacher,
                 nameAuthor: nameAuthor,
             } 

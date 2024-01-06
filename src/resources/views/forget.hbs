@@ -10,11 +10,17 @@
 <body>
         <div class="login-container d-flex align-items-center justify-content-center">
            
-            <form action="/forget" method="post" class ="login-form text-center">
-                <h2>FORGET PASSWORD</h2>
+            <form action="/forget" method="post" class ="login-form text-center form-content">
+                <h2>QUÊN MẬT KHẨU</h2>
+                <div class ="reset" style=" margin-top: 20px;">
+                <p>Nhập email được dùng để đăng ký tài khoản của bạn</p>
+                <br>
+                <p>Hệ thống sẽ gửi mail hỗ trợ bạn đổi mật khẩu</p>
+                </div >
                 <input class ="form-control" type="email" name="email" required placeholder="email">    
+               
                 <p> {{message}}</p>
-                <button class ="btn btn-primary btn-block" type="submit" value = "Send">Send</button>     
+                <button class ="btn btn-primary btn-block" type="submit" value = "Send">Gửi</button>     
             </form>
         </div>
 </body>

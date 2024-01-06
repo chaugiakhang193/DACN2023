@@ -1,22 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            display: flex;
+        }
+
+        .login-container,
+        .AnnouncementInfoS {
+            width: 50%;
+            float: left;
+            padding: 20px; /* Để tạo khoảng cách xung quanh phần tử */
+        }
+
+        .login-container {
+            order: 1; /* Đặt form ở góc trái */
+        }
+
+        .AnnouncementInfoS {
+            order: 2; /* Đặt thông tin công khai ở góc phải */
+        }
+
+        .login-form {
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
-    <h2>THIS IS DEFAULT PAGE</h2>
-    <a href="./login">LOGIN</a>
+    <div class="login-container d-flex align-items-center justify-content-center"style="width: 35%;">
+        <form action="/login" method="post" class="login-form text-center form-content" >
+            <h2>ĐĂNG NHẬP</h2>
+            <input class="form-control" type="text" name="name" required placeholder="Username">
+            <br>
+            <input class="form-control" type="password" name="password" required placeholder="********">
+            <br>
+            <p> {{message}}</p>
+            <button class="btn btn-primary btn-block" type="submit" value="Login">Đăng nhập</button>
+            <br>
+            <a href="./forget">Bạn quên mật khẩu? Hãy nhấn vào đây</a>
+        </form>
+    </div>
 
-    <h2>THIS IS PUBLIC INFORMATION</h2>
-    {{#each AnnoucementInfoS}}
+    <div class="AnnouncementInfoS" style="width: 65%; ">
+        <h2>THÔNG BÁO CÔNG KHAI</h2>
+        {{#each AnnoucementInfoS}}
         <div>
-        <a style="margin:0;display:inline;float:left" href="/announcement/public/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
-        <p style="margin:0;display:inline:float:right" > - {{this.CreateAt}}</p>
+            <a style="margin:0;display:inline;float:left" href="/announcement/public/{{this._id}}">[{{this.Type}}] {{this.Title}} </a>
+            <p style="margin:0;display:inline:float:right"> - {{this.CreateAt}}</p>
         </div>
-    {{/each}}
-
+        {{/each}}
+    </div>
 </body>
+
 </html>
