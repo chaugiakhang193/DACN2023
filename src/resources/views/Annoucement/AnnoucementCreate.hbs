@@ -8,8 +8,18 @@
 </head>
 <body>  
     <div class="login-container d-flex align-items-center justify-content-center">
-        <form action="/announcement/create" method="post" class ="text-center" >
-            <h2>Create An Annoucement</h2>
+        <form action="/announcement/create" method="post" class ="text-center form-content" style="width: 400px; padding: 20px;" >
+            <h2>ĐĂNG THÔNG BÁO</h2>
+
+             <div class="form-group">
+                <label for= "PublicType">Chế độ thông báo</label>
+                
+                    <select class="form-control"  name="Public" id = "PublicType">
+                        <option value="true" >Thông báo công khai</option>
+                        <option value="false">Thông báo nội bộ</option>
+                    </select>
+            </div>
+
             <div class="form-group">
                 <label for= "Type">Loại thông báo</label>
                
@@ -19,33 +29,24 @@
                     </select>
             </div>
 
-            <div class="form-group">
-                <label for= "PublicType">Chế độ thông báo</label>
-                
-                    <select class="form-control"  name="Public" id = "PublicType">
-                        <option value="true" >Thông báo công khai</option>
-                        <option value="false">Thông báo nội bộ</option>
-                    </select>
-            </div>
-
             <div class = "form group">
-                <label for= "Title">Title</label>
+                <label for= "Title">Tiêu đề</label>
                 <input class="form-control" type="text" name="Title" id = "Title" required>
             </div>
             
              
             <div class = "form group">
-                <label for= "Description">Description</label>
+                <label for= "Description">Nội dung vắn tắc</label>
                 <textarea class="form-control" rows="2" cols="23" type="text" name="Description" id ="Description" required></textarea>
             </div>    
 
             <div class = "form group">
-                <label for= "Content">Content</label>
+                <label for= "Content">Nội dung thông báo cụ thể</label>
                 <textarea class="form-control" rows="5" cols="23" type="text" name="Content" id = "Content" required></textarea>  
             </div>
             <div class = "form group">
                 <p> {{message}}</p>
-                <button class ="btn btn-primary btn-block" type="submit" value = "Login">Post Announcement</button>
+                <button class ="btn btn-primary btn-block" type="submit" value = "Login">Đăng thông báo</button>
             </div>
         </form>
     </div>

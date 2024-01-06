@@ -10,15 +10,15 @@
 <body>  
         <div class="login-container d-flex align-items-center justify-content-center">
         
-            <form action="/signup" method="post"  class ="login-form text-center">
-                <h2>SIGN UP</h2>
+            <form action="/signup" method="post"  class ="login-form text-center form-content ">
+                <h2>ĐĂNG KÝ </h2>
                 <input class ="form-control" maxlength="8" type="text" name="name" required placeholder="Username" >
                 <br> 
                 <input class ="form-control" maxlength="16" type="password" name="password"required placeholder="********">
                 <br> 
                 <input class ="form-control" type="email" name="email" required placeholder="Email">
                 <br>
-                <input class ="form-control" type="text" name="Realname" required placeholder="Your name" >
+                <input class ="form-control" type="text" name="Realname" required placeholder="Họ và tên" >
                 <br> 
                     <select  class ="form-control" name="teacher">
                         <option value="true" >Giáo viên</option>
@@ -26,7 +26,7 @@
                     </select>
 
                 <p> {{message}}</p>
-                <button class ="btn btn-primary btn-block" type="submit" value = "Sign Up">Sign Up</button>
+                <button class ="btn btn-primary btn-block" type="submit" value = "Sign Up">Đăng ký</button>
             </form>
         </div>
 </body>

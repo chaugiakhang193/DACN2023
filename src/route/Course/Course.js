@@ -12,10 +12,10 @@ router.get('/create-course', Middleware.VerifyTokenandTeacher ,CourseController.
 router.post('/create-course', Middleware.VerifyTokenandTeacher ,CourseController.CreateCourse)
 
 // [GET] /course/management/course-already-create 
-router.get('/management/course-already-create', Middleware.VerifyTokenandTeacher ,CourseController.CourseAlreadyCreate)
+router.get('/course-already-create', Middleware.VerifyTokenandTeacher ,CourseController.CourseAlreadyCreate)
 
 // [GET] /course/management/current-course
-router.get('/management/current-course', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourse)
+router.get('/current-course', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourse)
 
 // [GET] /course/:codeCourse/upload-video
 router.get('/:codeCourse/upload-video',Middleware.VerifyTokenandTeacher , CourseController.UploadVideoForm)

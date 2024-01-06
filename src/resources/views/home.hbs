@@ -10,25 +10,29 @@
     <h2>THIS IS HOME</h2>
     
     <p> Hello {{ Realname }}, {{Teacher}}</p>
-     <a data-toggle="modal" data-target="#delete-announcement"  href="/logout">Logout </a>
+     <a data-toggle="modal" data-target="#delete-announcement"  href="/logout">Đăng Xuất </a>
 
 
 <div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">LOGOUT?</h5>
+        <h5 class="modal-title">ĐĂNG XUẤT?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>ARE YOU SURE TO LOGOUT ?</p>
+      <p>
+        <span style="color: black;">BẠN SẼ </span>
+        <b style="color: red;">KHÔNG THỂ</b>
+        <span style="color: black;">SỬ DỤNG MỘT SỐ TÍNH NĂNG </span>
+      </p>
         
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-danger">YES</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+        <button id = "btn-delete" type="button" class="btn btn-danger">ĐĂNG XUẤT</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ĐÓNG</button>
       </div>
     </div>
   </div>
