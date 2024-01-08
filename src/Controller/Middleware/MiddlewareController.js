@@ -71,7 +71,7 @@ const Middleware = {
         }
         //not have accessToken and refreshToken 
         else{
-            res.render("login", {message:"You need login to use this feature, Please login!!!" }); 
+            res.render("login", {message:"Bạn cần đăng nhập để tiếp tục" }); 
             //res.send("You're are not authenticated, Please login!!!");
         }
     },
@@ -86,7 +86,7 @@ const Middleware = {
                 next();
             }
             else{
-                res.send("You are not allowed to do that")
+                res.send("Chỉ giáo viên mới có thể thực hiện hành động này")
             }
             
         });
@@ -103,7 +103,7 @@ const Middleware = {
                 next();
             }
             else{
-                res.send("You are not student, can not use this feature")
+                res.send("Bạn không phải sinh viên, nên không thể xem nội dung này")
             }
             
         });

@@ -23,7 +23,7 @@ class LoginController{
             
             if(!User){
                 //res.send("Can't find your account, please try again");
-                res.render("login", {message: "Can't find your account, please try again"});
+                res.render("login", {message: "Không thể tìm thấy tài khoản của bạn! Hãy thử lại nhé"});
             }else{
                 const validPassword = await bcrypt.compare(
                     req.body.password,
@@ -31,7 +31,7 @@ class LoginController{
                 );
                 if(!validPassword){
                     //res.send("Your password is incorrect, please try again");
-                    res.render("login", {message: "Your password is incorrect, please try again"});
+                    res.render("login", {message: "Mật khẩu sai, hãy kiểm tra lại"});
 
                 }
                 else{ 

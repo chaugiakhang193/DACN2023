@@ -17,6 +17,9 @@ router.get('/course-already-create', Middleware.VerifyTokenandTeacher ,CourseCon
 // [GET] /course/management/current-course
 router.get('/current-course', Middleware.VerifyTokenandTeacher ,CourseController.CurrentCourse)
 
+// [GET] /course/:codeCourse/member-list
+router.get('/:codeCourse/member-list',Middleware.VerifyToken , CourseController.RenderMemberList)
+
 // [GET] /course/:codeCourse/upload-video
 router.get('/:codeCourse/upload-video',Middleware.VerifyTokenandTeacher , CourseController.UploadVideoForm)
 
@@ -34,6 +37,9 @@ router.get('/view-video/:id', Middleware.VerifyToken ,CourseController.ViewAVide
 
 // [POST] /course/delete-comment/:id
 router.post('/delete-comment/:id', Middleware.VerifyToken ,CourseController.DeleteComment)
+
+// [POST] /course/delete-comment/:id
+router.post('/delete-video/:id', Middleware.VerifyToken ,CourseController.DeleteVideo)
 
 //[GET] [TEMP]  /course/edit-comment/:id  
 router.get('/edit-comment/:id', Middleware.VerifyToken ,CourseController.RenderEditCommentForm)

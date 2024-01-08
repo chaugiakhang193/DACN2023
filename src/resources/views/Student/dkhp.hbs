@@ -7,17 +7,18 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>DKHP</h2>
+    <h2>Đăng ký khoá học</h2>
         <p> {{message}}</p>
-         <table class="table">
+        <div class ="form-content">
+         <table class="table border" >
         <thead>
             <tr>
            
-            <th scope="col">Môn học</th>
-            <th scope="col">Mã môn</th>
-            <th scope="col">Giảng viên phụ trách</th>
-            <th scope="col">Thời gian môn học</th>
-            <th scope="col">Hành động</th>
+            <th class="border-left" style="text-align: center;" scope="col">Môn học</th>
+            <th class="border-left" style="text-align: center;" scope="col">Mã môn</th>
+            <th class="border-left" style="text-align: center;" scope="col">Giảng viên phụ trách</th>
+            <th class="border-left" style="text-align: center;" scope="col">Thời gian môn học</th>
+            <th class="border-left" style="text-align: center;" scope="col">Hành động</th>
             </tr>
         </thead>    
     <tbody> 
@@ -25,11 +26,11 @@
             {{#each CourseS}}
             <div>
                     <tr>
-                        <td>{{this.Name}}</td>
-                        <td>{{this.codeCourse}}</td>
-                        <td>{{nameTeacher}}</td>
-                        <td>{{this.StartAt}} - {{this.EndAt}}</td>
-                        <td>
+                        <td >{{this.Name}}</td>
+                        <td class="border-left" style="text-align: center;" >{{this.codeCourse}}</td>
+                        <td class="border-left" style="text-align: center;" >{{nameTeacher}}</td>
+                        <td class="border-left" style="text-align: center;" >{{this.StartAt}} - {{this.EndAt}}</td>
+                        <td class="border-left" style="text-align: center;">
                             <a class = "btn btn-link" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Đăng ký</a>
                         </td>
                     </tr>
@@ -39,27 +40,27 @@
     </tbody>
     </table>
 
-
+</div>
     <div class="mt-4">
-    <a href="/student/dkhp/mon-da-dang-ky">List of your course</a>
+    <a href="/student/mon-da-dang-ky">Danh sách khoá học đã đăng ký</a>
     </div>
 
 <div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Register A Course?</h5>
+        <h5 class="modal-title">Đăng ký khoá học?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>This action will register this course</p>
+        <p>Bạn sẽ được ghi danh vào khoá học sau:</p>
         <p id = "title-content"> </p>
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-primary">Register</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id = "btn-delete" type="button" class="btn btn-primary">Đăng ký</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>

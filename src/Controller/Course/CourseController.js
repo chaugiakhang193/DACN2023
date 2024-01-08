@@ -87,7 +87,7 @@ class CourseController {
                 }
             )
             res.render("Course/Edit",
-            {message: "Update Course's information successfully!"});
+            {message: "Thay đổi của bạn đã được lưu"});
            
         }
         catch(error){
@@ -112,7 +112,7 @@ class CourseController {
         }
         catch(error){
             res.render("Course/Edit",
-            {message: "This course not exist, please try again"});
+            {message: "Không thể tìm thấy khoá học này"});
         }
     }
 
@@ -150,13 +150,40 @@ class CourseController {
         
     }
 
+    // [GET] /course/:codeCourse/member-list
+    async RenderMemberList(req,res){
+        const codeCourse = req.params.codeCourse;
+        const CourseInfo =  await Course.findOne({ IsStudent:false, codeCourse:codeCourse});
+        
+        const idTeacher = CourseInfo.idTeacher;
+        const Teacher = await Account.findOne({_id : idTeacher});
+        const nameTeacher = Teacher.Realname;
+
+        const StudentInCourseS = Course.find({IsStudent:true, codeCourse:codeCourse})
+        StudentInCourseS.sort({
+            DateCreateAt: 'desc'
+        })
+        .then(StudentInCourseS =>{
+            
+            StudentInCourseS = StudentInCourseS.map(StudentInCourse=>StudentInCourse.toObject()) 
+            res.render("Course/MemberList",{
+                codeCourse:CourseInfo.codeCourse,
+                Name: CourseInfo.Name,
+                Description:CourseInfo.Description,
+                nameTeacher: nameTeacher,
+                StudentInCourseS: StudentInCourseS
+            });
+        })
+        
+    }
+
     // [GET] /course/:codeCourse/upload-video
     async UploadVideoForm(req,res){
         const codeCourse = req.params.codeCourse;
         const CurrentUserID = req.cookies.User._id;
         const CourseInfo =  await Course.findOne({idTeacher:CurrentUserID, IsStudent:false, codeCourse:codeCourse});
         if(!CourseInfo){
-            res.send("You not teach this course, can not upload any video. Please contact to the teacher who teach this course.")
+            res.send("Bạn không dạy khoá học này, nên không thể upload video")
         }
         else{
         const codeCourse = req.params.codeCourse
@@ -204,7 +231,7 @@ class CourseController {
         }
         else{
             console.log(fileData);
-        res.send("Successfully uploaded")
+        res.send("Bài giảng đã được tải lên")
         }
 
     }
@@ -261,10 +288,11 @@ class CourseController {
             const CurrentUserID = req.cookies.User._id; 
             const StudentInfo = await Account.findOne({_id: CurrentUserID});
             const CheckStudentAccount = StudentInfo.teacher; //false is student account
+            const UserName = StudentInfo.Realname;
             const idAVideo = AVideo._id; 
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID,codeCourse:codeCourse});
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("You have not registered this course yet. Please try again later.");
+                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");
             }
             const Description = AVideo.Description;
             const Title = AVideo.Title;
@@ -282,6 +310,7 @@ class CourseController {
                          URL: URL,
                          idCourse: idAVideo,
                          CommentS:CommentS,
+                         UserName:UserName
                         });
                 })
 
@@ -291,6 +320,17 @@ class CourseController {
         catch(error){
             console.log(error)
             res.send("<h1>Sorry, this video is not avaible. Please try again later</h1>")
+        }
+    }
+
+    async DeleteVideo(req, res){
+        try{
+            const DeleteVideoID = req.params.id
+            await Asset.deleteOne({_id: DeleteVideoID});
+            res.redirect('back')
+        }
+        catch(error){
+            console.log(error);
         }
     }
 
@@ -306,12 +346,12 @@ class CourseController {
                 res.redirect('back')
             }
             else{
-                res.send("This is not your comment, you can not delete this comment")
+                res.send("Bạn không được xoá bình luận này, vì không thuộc về bạn")
             }
         }
         catch(error)
         {
-            res.send("Some thing went wrong, you can not delete this comment")
+            res.send("Lỗi, không thể xoá bình luận này")
         }
     }
 
@@ -346,18 +386,25 @@ class CourseController {
                 res.redirect('back')
             }
             else{
-                res.send("This is not your comment, you can not edit this comment")
+                res.send("Bạn không thể sửa bình luận này")
             }
         }
         catch(error)
         {
-            res.send("Some thing went wrong, you can not edit this comment")
+            res.send("Bạn không thể sửa bình luận này")
         }
     }
 
     // [GET] /course/:codeCourse
     async CourseDetail(req, res) {
         try{
+            const CheckTeacher =await req.cookies.User.teacher;
+            let UpVideo;
+            let DeleteVideo;
+            if(CheckTeacher){
+                UpVideo = "Thêm nội dung bài học"
+                DeleteVideo = "Xoá bài giảng này"
+            }
             const codeCourse = req.params.codeCourse;
             const CurrentUserID = req.cookies.User._id;
             const StudentInfo = await Account.findOne({_id: CurrentUserID});
@@ -365,7 +412,7 @@ class CourseController {
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
             
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("You have not registered this course yet. Please try again later.");
+                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé ");
             }
             
 
@@ -395,6 +442,7 @@ class CourseController {
                             .then(AssetInfoS =>{
                                 
                                 AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                                console.log(UpVideo + DeleteVideo)
                                 res.render("Course/CourseDetail",
                                             {
                                                 AssetInfoS:AssetInfoS,
@@ -403,7 +451,9 @@ class CourseController {
                                                 Name: CourseInfo.Name,
                                                 Description: CourseInfo.Description,
                                                 UserName:UserName,
-                                                codeCourse: codeCourse
+                                                codeCourse: codeCourse,
+                                                UpVideo: UpVideo,
+                                                DeleteVideo:DeleteVideo
                                             }
                                         );
                             })
@@ -417,7 +467,7 @@ class CourseController {
                 const CheckStudentAccount = StudentInfo.teacher; //false is student account
                 const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
                 if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                    res.send("You have not registered this course yet. Please try again later.");}
+                    res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");}
 
                 let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
                 let AssetInfo = Asset.find({idOwner: CourseInfo._id});
@@ -439,6 +489,7 @@ class CourseController {
                             .then(AssetInfoS =>{
                                 
                                 AssetInfoS = AssetInfoS.map(AssetInfo=>AssetInfo.toObject()) 
+                                console.log(UpVideo + DeleteVideo)
                                 res.render("Course/CourseDetail",
                                             {
                                                 AssetInfoS:AssetInfoS,
@@ -447,7 +498,9 @@ class CourseController {
                                                 Name: CourseInfo.Name,
                                                 Description: CourseInfo.Description,
                                                 UserName:UserName,
-                                                codeCourse: codeCourse
+                                                codeCourse: codeCourse,
+                                                UpVideo:UpVideo,
+                                                DeleteVideo:DeleteVideo
                                             }
                                         );
                             })
@@ -459,6 +512,13 @@ class CourseController {
         catch(error){
             console.log(error)  
             //case no comment, case no video for teacher
+            const CheckTeacher =await req.cookies.User.teacher;
+            let UpVideo;
+            let DeleteVideo;
+            if(CheckTeacher){
+                UpVideo = "Thêm nội dung bài học"
+                DeleteVideo = "Xoá bài giảng này"
+            }
             const codeCourse = req.params.codeCourse;
             const CurrentUserID = req.cookies.User._id;
             const CurrentUserInfo = await Account.findOne({_id: CurrentUserID});
@@ -467,11 +527,12 @@ class CourseController {
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
             
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("You have not registered this course yet. Please try again later.");
+                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");
             }
             let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
             let idCourse = CourseInfo._id;
             const UserName = CurrentUserInfo.Realname;  
+            console.log(UpVideo + DeleteVideo)
             res.render("Course/CourseDetail",
                                     {
                                         idCourse: idCourse,
@@ -479,6 +540,8 @@ class CourseController {
                                         Description: CourseInfo.Description,
                                         UserName:UserName,
                                         codeCourse: codeCourse,
+                                        UpVideo: UpVideo,
+                                        DeleteVideo: DeleteVideo
                                     }
                                 );
         }
@@ -540,9 +603,9 @@ class CourseController {
                 nameAuthor: nameAuthor,
             } 
             await Course.insertMany([data]);
-            res.render("Course/CreateCourse",{message: "You have successfully create a course!"});
+            res.render("Course/CreateCourse",{message: "Tạo khoá học thành công"});
         }catch(error){
-            res.render("Course/CreateCourse",{message: "You have failed create a course!"});
+            res.render("Course/CreateCourse",{message: "Không thể tạo khoá học"});
         }
     }
     

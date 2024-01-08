@@ -31,7 +31,7 @@ class SignUpController {
             //check name already exists
             if(ExistName){
                 //res.send("Username have already used")
-                message = await message  + "Username have already used  "
+                message = await message  + "Username đã có người dùng"
                 res.render("signup", {message: message})
             }
             else{
@@ -40,23 +40,23 @@ class SignUpController {
                 //check mail already exists
                 if(AlreadyMail){
                     //res.send("Mail have already used")
-                    message =await  message  + "Mail have already used  "
+                    message =await  message  + "Email này đã có người dùng"
                     res.render("signup", {message: message})
                 }
                 else{
                     const name = await req.body.name.length;
                     if(name < 8){   
-                        message = await message  +  "Username need have 8 characters "
+                        message = await message  +  "Tên tài khoản cần là MSSV 8 ký tự "
                         res.render("signup", {message: message })}
                     else{
                         const password = await req.body.password.length;
                         if(password <8){ 
-                                message = await message  +  "Password need have 8-16 characters  "
+                                message = await message  +  "Mật khẩu phải là 8-16 chữ số/ký tự "
                                 res.render("signup", {message: message })}
                         else{
                             await AccountSchema.insertMany([data])
                             //res.redirect('/login');
-                            res.render("signup", {message: "Create account successfully!"})
+                            res.render("signup", {message: "Đã tạo tài khoản thành công!"})
                             }
                         }
                     }

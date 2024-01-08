@@ -22,13 +22,13 @@ class ForgetController{
             this.sendResetPasswordMail(userData.Realname, userData.email, randomString);
             //res.send("Please check your email")
             //res.render('forget', {message: "Please check your email"})
-            //res.send("Please check your email")
-            res.render('forget', {message: "Mail has been sent, please check your email"})
+            //res.send("Please check your email") 
+            res.render('forget', {message: "Mail hỗ trợ đổi mật khẩu đã được gửi"})
 
           }
           else{
             
-            res.render('forget', {message: "Can't find your email"})
+            res.render('forget', {message: "Không thể tìm thấy Mail của bạn"})
 
           }
        }
@@ -58,8 +58,8 @@ class ForgetController{
             const mailOptions = {
                 from:process.env.Email,
                 to:email,
-                subject:'For reset your password',
-                html: '<p> Hello '+name+', Please copy the link <a href ="http://127.0.0.1:3000/forget/reset-password?token='+token+ '">and reset your password</a>' 
+                subject:'Mail hỗ trợ đổi mật khẩu',
+                html: '<p> Xin Chào '+name+', hãy sao chép <a href ="http://127.0.0.1:3000/forget/reset-password?token='+token+ '">đường link này và tạo mật khẩu mới nhé!</a>' 
             }
 
             await transporter.sendMail(mailOptions, function(error,infor){
@@ -75,7 +75,7 @@ class ForgetController{
         }
         catch(error)
         {
-            res.send("Can not send email")
+            res.send("Một lỗi đã khiến mail không được gửi đi")
         }
     }
 
@@ -91,7 +91,7 @@ class ForgetController{
                 
             }
             else{
-                res.send("Sorry, this link is expired")
+                res.send("Xin lỗi, link này của bạn đã hết hạn")
             }
         }catch(error){
             res.send("Oh, some thing went wrong")

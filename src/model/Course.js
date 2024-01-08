@@ -55,6 +55,10 @@ const Course = new Schema({
         type:String,
         default:'Unknown'
     },
+    MSSV:{
+        type:String,
+        default:'Unknown'
+    },
     idTeacher:{
         type:String,
         
