@@ -292,7 +292,7 @@ class CourseController {
             const idAVideo = AVideo._id; 
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID,codeCourse:codeCourse});
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");
+                return res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký khoá học này ở trang ghi danh nhé");
             }
             const Description = AVideo.Description;
             const Title = AVideo.Title;
@@ -412,7 +412,7 @@ class CourseController {
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
             
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé ");
+                return res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký khoá học này ở trang ghi danh nhé ");
             }
             
 
@@ -467,7 +467,7 @@ class CourseController {
                 const CheckStudentAccount = StudentInfo.teacher; //false is student account
                 const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
                 if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                    res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");}
+                    return res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký khoá học này ở trang ghi danh nhé");}
 
                 let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
                 let AssetInfo = Asset.find({idOwner: CourseInfo._id});
@@ -527,7 +527,8 @@ class CourseController {
             const StudentAlreadyRegisterThisCourseYet = await Course.findOne({idStudent:CurrentUserID, codeCourse:codeCourse});
             
             if(!CheckStudentAccount && !StudentAlreadyRegisterThisCourseYet){
-                res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký môn học này ở trang ghi danh nhé");
+                return res.send("Bạn chưa đăng ký khoá học này, hãy đăng ký khoá học này ở trang ghi danh nhé");
+                
             }
             let CourseInfo =  await Course.findOne({IsStudent:false, codeCourse:codeCourse});
             let idCourse = CourseInfo._id;
