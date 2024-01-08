@@ -173,11 +173,11 @@ class AnnoucementController {
             Author: req.cookies.User._id,   
         } 
         await Annoucement.insertMany([data]);
-        res.render("Annoucement/AnnoucementCreate",{message: "You have successfully posted annoucement!"} );}
+        res.render("Annoucement/AnnoucementCreate",{message: "Thông báo của bạn đã được đăng lên!"} );}
         catch(error)
         {
         console.log(error);
-        res.render("Annoucement/AnnoucementCreate",{message: "You have failed posted annoucement!"} )
+        res.render("Annoucement/AnnoucementCreate",{message: "Thông báo của bạn đăng lên thất bại!"} )
         }
     }
     

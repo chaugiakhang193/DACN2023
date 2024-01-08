@@ -1,0 +1,29 @@
+
+    <div class = "form-content">
+            <h4>[{{codeCourse}}] {{Name}}</h4>    
+            <b style="margin:0;display:inline;float:left">Mô tả môn học: </b> 
+            <p style="margin:0;display:inline:float:right" > {{this.Description}}</p>
+            <b style="margin:0;display:inline;float:left">Giáo viên giảng dạy: </b> 
+            <p style="margin:0;display:inline:float:right" > {{this.nameTeacher}}</p>
+
+            
+        <br>
+        <h4>Danh sách lớp</h4>
+         <table style="max-width: 600px;"class="table border">
+        <thead>
+            <tr>
+           
+            <th scope="col" class="border right">Tên Sinh viên</th>
+            <th scope="col" >MSSV</th>
+            </tr>
+        </thead>    
+        {{#each StudentInCourseS}}
+            <div >
+                    <tr>
+                        <td class="border right">{{this.nameStudent}}</td>
+                        <td class="border-start border-end">{{this.MSSV}}</td>
+                    </tr>
+            </div>    
+        {{/each}}
+    </div>
+    

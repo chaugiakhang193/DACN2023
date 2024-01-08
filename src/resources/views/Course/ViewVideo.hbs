@@ -8,63 +8,60 @@
     <link rel="stylesheet" href="../../.././src/public/css/Course/ViewVideo.css">
 </head>
 <body>
-        <h2> VIEW VIDEO</h2>
-        
-            <div>
+            <div class = "form-content"> 
                 <h2> {{Title}}</h2>
                 <p> {{Description}}</p>
-                <br>
-                <a class = "btn btn-link" href="{{URL}}">{{URL}}</a>
-                <br>
-                <iframe src = "{{URL}}" style="height:600px;width:1000px;"  title="{{Title}}" ></iframe>
             </div>
-            <br>
-            <br>
-            <br>
-            <br>    
-        <div>
-            <b>Thảo luận bài học tại đây ^_^ </b>
+            <div class = "form-content" style="margin-top: 10px; margin-bottom: 10px;">
+                <iframe src = "{{URL}}" style="height:590px;width:1000px;"  title="{{Title}}" ></iframe>
+            </div>
+        
+        <div class = "form-content">
+          <div>
+              <h4>Thảo luận bài học tại đây ^_^ </H4>
+          </div>
+
+        <div >
+          <form action="/course/{{idCourse}}/upload-comment" method="post" >
+              <b for="UserName">{{UserName}}</b><br>
+              <input  type="text" id ="UserName" name="Content" required placeholder="Write something here" >
+              
+              <input type="submit" value = "Bình luận">
+          </form>
         </div>
-
-        <form action="/course/{{idCourse}}/upload-comment" method="post" >
-            <b for="UserName">{{UserName}}</b><br>
-            <input  type="text" id ="UserName" name="Content" required placeholder="Write something here" >
-            
-            <input type="submit" value = "Comment">
-        </form>
         <br>
-
+        
         {{#each CommentS}}
-            <div>
-                <br>
-                    
-                    <div>
+            <div >
+
+                    <div class ="form-content">
+                      
                         <b style="margin:0;display:inline;float:left" > {{this.RealNameAuthor}} - </b> 
                         <p style="margin:0;display:inline:float:right" > [{{this.CreateAt}}]  </p>
                         <p>{{this.Content}}</p>
-                        <a class = "btn btn-link" href="/course/edit-comment/{{this._id}}">Sửa comment này</a>
-                        <a class = "btn btn-link" href="/course/delete-comment/{{this._id}}" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}">Xoá comment này</a>
+                        <a class = "delete-button btn btn-link" href="/course/delete-comment/{{this._id}}" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}">Xoá comment này</a>
                     </div>
             </div>
         {{/each}}
+        </div>
         <br>
 </div>
     <div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete this Comment?</h5>
+        <h5 class="modal-title">Xoá bình luận này?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>This action will delete this comment</p>
+        <p>Bình luận này sẽ biết mất vĩnh viễn!</p>
         <p id = "title-content"> </p>
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-danger">Delete</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id = "btn-delete" type="button" class="btn btn-danger">Xoá</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>

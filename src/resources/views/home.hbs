@@ -5,13 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    
 </head>
 <body>
-    <h2>THIS IS HOME</h2>
-    
-    <p> Hello {{ Realname }}, {{Teacher}}</p>
-     <a data-toggle="modal" data-target="#delete-announcement"  href="/logout">Đăng Xuất </a>
-
+    <div class = "form-content"  style="max-width: 20%;padding: 10px; float: left; margin-right: 5%;">
+      <i class="bi bi-person" style="font-size: 2em;"></i>
+      <p style="margin-bottom: 1px;"> Xin chào, {{ Realname }} </p>
+      <a data-toggle="modal" data-target="#delete-announcement"  href="/logout">Đăng Xuất </a>
+    </div>
+    <div class = "form-content" style="float: left;max-width: 850px; width: 100%; height: 370px;">
+      <h4 class ="reset" style="margin-top: 1px;">MỘT SỐ THÔNG BÁO MỚI</h4>
+            {{#each AnnoucementInfoS}}
+                <div>
+                <a style="margin:0;display:inline;float:left" href="/announcement/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
+                <p style="margin:0;display:inline:float:right" > - {{this.UpdateAt}}</p>
+                
+                </div>
+            {{/each}}
+            <a href="/announcement" style="float: right; margin-bot: 5px;">Xem thêm</a>
+    </div>  
 
 <div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

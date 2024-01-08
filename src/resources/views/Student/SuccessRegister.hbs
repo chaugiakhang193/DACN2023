@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách môn đã đăng ký</title>
+    <title>Khoá học đã đăng ký</title>
 </head>
 <body>
-    <h2>Danh sách môn đã đăng ký</h2>
+    <h2>Danh sách khoá học đã đăng ký</h2>
         <p> {{message}}</p>
-         <table class="table">
+        <div class = "form-content">
+         <table class="table border">
         <thead>
             <tr>
            
-            <th scope="col">Môn học</th>
-            <th scope="col">Mã môn</th>
-            <th scope="col">Giảng viên phụ trách</th>
-            <th scope="col">Thời gian môn học</th>
-            <th scope="col">Hành động</th>
+            <th class="border-left" style="text-align: center;" scope="col">Môn học</th>
+            <th class="border-left" style="text-align: center;" scope="col">Mã môn</th>
+            <th class="border-left" style="text-align: center;" scope="col" >Giảng viên phụ trách</th>
+            <th class="border-left" style="text-align: center;" scope="col" style="text-align: center;">Thời gian môn học</th>
+            <th class="border-left" style="text-align: center;" scope="col" style="text-align: center;">Hành động</th>
             </tr>
         </thead>    
     <tbody> 
@@ -25,12 +26,16 @@
             {{#each CourseS}}
             <div>
                     <tr>
-                        <td><a class = "btn btn-link" href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
-                        <td>{{this.codeCourse}}</td>
-                        <td>{{nameTeacher}}</td>
-                        <td>{{this.StartAt}} - {{this.EndAt}}</td>
-                        <td>
-                            <a class = "btn btn-link" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Hủy học phần</a>
+                        <td class="border-left" style="text-align: center;"><a class = "btn btn-link" href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
+                        <td class="border-left" style="text-align: center;">{{this.codeCourse}}</td>
+                        <td class="border-left" style="text-align: center;">{{nameTeacher}}</td>
+                        
+                        <td class="border-left" style="text-align: center;"><div style="text-align: center;">{{this.StartAt}} - {{this.EndAt}}</div></td>
+                        
+                        <td class="border-left" style="text-align: center;">
+                            <div style="text-align: center;">
+                            <a  class = "btn btn-link delete-button" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Hủy học phần</a>
+                            </div>
                         </td>
                     </tr>
             </div>
@@ -38,28 +43,28 @@
         </tr>
     </tbody>
     </table>
-
+</div>
 
     <div class="mt-4">
-    <a href="/student/dkhp">Back to Register Course</a>
+    <a href="/student/dang-ky-khoa-hoc">Quay trở lại trang đăng ký khoá học</a>
     </div>
 
 <div id = "delete-announcement"class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Canceled registration A Course?</h5>
+        <h5 class="modal-title">Huỷ khoá học này?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Canceled registration for this course?</p>
+        <p>Khoá học bên dưới sẽ bị xoá khỏi danh sách đã đăng ký của bạn:</p>
         <p id = "title-content"> </p>
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-danger">Hủy học phần</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id = "btn-delete" type="button" class="btn btn-danger">Hủy khoá học này</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>

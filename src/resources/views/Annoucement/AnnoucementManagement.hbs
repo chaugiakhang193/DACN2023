@@ -8,25 +8,26 @@
 </head>
 <body>
     <h2>QUẢN LÝ THÔNG BÁO</h2>
-         <table class="table">
+    
+         <table class="table" >
         <thead>
             <tr>
            
-            <th scope="col" style="text-align: center;">Loại thông báo</th>
-            <th scope="col">Tiêu đề</th>
-            <th scope="col">Thời gian đăng/chỉnh sửa</th>
-            <th scope="col" style="text-align: center;">Hành động </th>
+            <th class="border-left" scope="col" style="text-align: center;">Loại thông báo</th>
+            <th class="border-left"  scope="col">Tiêu đề</th>
+            <th class="border-left" scope="col">Thời gian đăng/chỉnh sửa</th>
+            <th class="border-left border-right" scope="col" style="text-align: center;">Hành động </th>
             </tr>
         </thead>    
-    <tbody> 
+    <tbody class="border-bottom"> 
         <tr>
             {{#each AnnoucementInfoS}}
             <div>
                     <tr>
-                        <td>{{this.Type}}</td>
-                        <td><a href="/announcement/{{this._id}}">{{this.Title}}</a></td>
-                        <td>{{this.UpdateAt}}</td>
-                        <td>
+                        <td class="border-left">{{this.Type}}</td>
+                        <td class="border-left"><a href="/announcement/{{this._id}}">{{this.Title}}</a></td>
+                        <td class="border-left">{{this.UpdateAt}}</td>
+                        <td class="border-left border-right">
                             <a class = "btn btn-link" href="/announcement/{{this._id}}/edit">Sửa</a>
                            
                             <a class = "btn btn-link delete-button" href="/announcement/{{this._id}}/delete" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.Type}}] {{this.Title}}">Xóa</a>
@@ -37,7 +38,7 @@
         </tr>
     </tbody>
     </table>
-
+  
 
     <div class="mt-4">
     <a href="/">back to home</a>

@@ -12,11 +12,11 @@
         <thead>
             <tr>
            
-            <th scope="col">Môn học</th>
-            <th scope="col">Mã môn</th>
-            <th scope="col">Giảng viên phụ trách</th>
-            <th scope="col"style="text-align: center;">Thời gian môn học</th>
-            <th scope="col"style="text-align: center;">Hành động</th>
+            <th class="border right" scope="col"style="text-align: center;">Môn học</th>
+            <th class="border right" scope="col"style="text-align: center;">Mã môn</th>
+            <th class="border right" scope="col"style="text-align: center;">Giảng viên phụ trách</th>
+            <th class="border right" scope="col"style="text-align: center;">Thời gian môn học</th>
+            <th class="border right" scope="col"style="text-align: center;">Hành động</th>
             </tr>
         </thead>    
     <tbody> 
@@ -25,11 +25,11 @@
             <div>
                     <tr>
                       
-                        <td ><a class = "btn btn-link"  href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
-                        <td>{{this.codeCourse}}</td>
-                        <td>{{nameTeacher}}</td>
-                        <td style="text-align: center;">{{this.StartAt}} - {{this.EndAt}}</td>
-                        <td style="text-align: center;">
+                        <td class="border right"><a class = "btn btn-link"  href="/course/{{this.codeCourse}}">{{this.Name}}</a></td>
+                        <td class="border right" style="text-align: center;">{{this.codeCourse}}</td>
+                        <td class="border right" style="text-align: center;">{{nameTeacher}}</td>
+                        <td class="border right" style="text-align: center;">{{this.StartAt}} - {{this.EndAt}}</td>
+                        <td class="border right"style="text-align: center;">
                             <a class = "btn btn-link" href="/course/management/{{this._id}}/edit">Sửa</a>
                         
                             <a class = "btn btn-link delete-button" href="/course/management/{{this._id}}/delete" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}" data-title="[{{this.codeCourse}}] {{this.Name}}">Xóa</a>

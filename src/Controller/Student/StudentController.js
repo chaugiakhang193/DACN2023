@@ -1,9 +1,26 @@
 const Course = require("../../model/Course")
 const Account = require("../../model/Account");
+const moment = require ("moment")
 
 
 class StudentController {   
+    // [GET] student/courses
+    async Courses(req,res){
+        const CurrentUserID =await req.cookies.User._id;
 
+        let CourseInfo =   Course.find({idStudent:CurrentUserID})
+        
+        CourseInfo.sort({
+            DateCreateAt: 'desc'
+        })
+        .then(CourseS =>{
+            
+            CourseS = CourseS.map(Course=>Course.toObject()) 
+            res.render("Student/Courses", {CourseS});
+        })
+    }
+
+    //[POST] student/dkhp/:id/delete
     async DKHPDelete(req, res) {
         const CurrentUserID =await req.cookies.User._id;
         const CurrentCourseID = req.params.id;
@@ -31,6 +48,7 @@ class StudentController {
     //[POST] /student/dkhp/:id
     async DKHP(req, res) {
         try{
+            
             const CourseID =await req.params.id;
             const CurrentCourse = await Course.findOne({_id: CourseID});
 
@@ -40,13 +58,19 @@ class StudentController {
             //tim ten sv 
             const SVInfo = await Account.findOne({_id: CurrentUserID})
             const SVName = SVInfo.Realname;
+            const MSSV = SVInfo.name;
+
+            
 
             if(checkAlreadyCourse){
-                res.send("You already registered this course");
+                res.send("Bạn đã đăng ký khoá học này rồi!");
                 //res.render("Student/dkhp",{message: "You already registered this course"});
             }
             else{
                 try{
+                    const SVInfo = await Account.findOne({_id: CurrentUserID})
+            
+                    
                     const Name = CurrentCourse.Name;
                     const codeCourse = CurrentCourse.codeCourse;
                     const Description = CurrentCourse.Description;
@@ -62,6 +86,19 @@ class StudentController {
                     const nameStudent = SVName;
                     //console.log(nameAuthor);
                     //Start Time 
+                    //format date data to dd/mm/yyyy
+                    const today = new Date();
+                    const yyyy = today.getFullYear();
+                    let mm = today.getMonth() + 1; 
+                    let dd = today.getDate();
+                        
+                    if (dd < 10) dd = '0' + dd;
+                    if (mm < 10) mm = '0' + mm;
+                        
+                    const formattedToday = dd + '/' + mm + '/' + yyyy;   
+
+                    const CreateAt = formattedToday + " - " + moment().format('LT');
+                    const UpdateAt = formattedToday + " - " + moment().format('LT');
                     
                         const data =
                         {   
@@ -79,18 +116,22 @@ class StudentController {
                             IsStudent:true,
                             idStudent: idStudent,
                             nameStudent: nameStudent,
+                            CreateAt: CreateAt,
+                            UpdateAt: UpdateAt,
+                            MSSV: MSSV,
+                            
                         } 
                         await Course.insertMany([data]);
                         //res.render("Student/dkhp",{message: "You have successfully register a course!"});
-                        res.redirect("/student/dkhp/mon-da-dang-ky"); 
+                        res.redirect("/student/mon-da-dang-ky"); 
                     }catch(error){
-                        res.send("You have failed register a course!");
+                        res.send("Đăng ký thất bạn, hãy thử lại bạn nhé!");
                         //res.render("Student/dkhp",{message: "You have failed register a course!"});
                     }
             }
         }
         catch(error){
-            res.send("Sorry, can not find this course, please try again")
+            res.send("Không thể tìm thấy khoá học này")
         }
 
 }

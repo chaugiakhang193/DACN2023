@@ -8,15 +8,15 @@
 </head>
 <body>
     <h2>THÔNG BÁO</h2>
-
-        {{#each AnnoucementInfoS}}
-        <div>
-        <a style="margin:0;display:inline;float:left" href="/announcement/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
-        <p style="margin:0;display:inline:float:right" > - {{this.UpdateAt}}</p>
-        
-        </div>
-        {{/each}}
-
+        <div class = "form-content">
+            {{#each AnnoucementInfoS}}
+                <div>
+                <a style="margin:0;display:inline;float:left" href="/announcement/{{this._id}}">[{{this.Type}}] {{this.Title}}  </a> 
+                <p style="margin:0;display:inline:float:right" > - {{this.UpdateAt}}</p>
+                
+                </div>
+            {{/each}}
+        </div>  
     <div class="mt-4">
     <a href="/">back to home</a>
     </div>

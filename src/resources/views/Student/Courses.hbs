@@ -1,0 +1,23 @@
+<div class="wrapper-course-student">
+        <h1>Courses</h1>
+         {{#each CourseS}}
+        <div class="box-subject">
+            <div class="coursebox-clearfix-even">
+                    <div class="info">
+                        <h3 class="coursename"><a class="aalink" href="/course/{{this.codeCourse}}">
+                            <p>
+                                <span >{{this.codeCourse}}</span>
+                                <span> - </span>
+                                <span >{{this.Name}}</span>
+                            </p>
+                        </a></h3>
+                        <div class="moreinfo"></div>
+                    </div>
+                        <div class="content-teachers"><ul class="teachers">
+                            <li style="list-style-type: none; display: flex; align-items: center;">Lecturer: 
+                                <p style=" margin: 0;color: #007BFF;">{{nameTeacher}}</p></a></li></ul>
+                        </div>
+            </div>
+        </div>
+        {{/each}}      
+</div>

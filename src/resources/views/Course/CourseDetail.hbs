@@ -7,38 +7,49 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>THIS IS COURSE DETAIL</h2>
+        <div class = "form-content" style="margin-bottom: 10px;">
+            <h3>
+              <span >{{this.codeCourse}}</span>
+              <span> - </span>
+              <span >{{this.Name}}</span>
+            </h3> 
+            
+            <b style="margin:0;display:inline;float:left">Mô tả môn học: </b> 
+            <p style="margin:0;display:inline:float:right;margin-right:5px;" > {{this.Description}}</p>
 
-       
-        <div>
-            <h4>[{{codeCourse}}] {{Name}}</h4>    
-            <b style="margin:0;display:inline;float:left">Description: </b> 
-            <p style="margin:0;display:inline:float:right" > {{this.Description}}</p>
-        </div>
-        <div>
-            <a href="/course/{{codeCourse}}/upload-video">Upload Video!</a>
+            <div>
+              <a href="/course/{{codeCourse}}/member-list">Danh sách lớp</a>
+            </div>
+
+            <div>
+              <a href="/course/{{codeCourse}}/upload-video">{{this.UpVideo}}</a>
+            </div>
+
         </div>
         
+        
 
-
-        {{#each AssetInfoS}}
-            <div>
-                <br>
-                <a class = "btn btn-link" href="/course/view-video/{{this._id}}">{{this.Title}}</a>
-                <br>
-            </div>
-        {{/each}}
+        <div class = "form-content">
+          <h4>Danh sách bài học</h4>
+          {{#each AssetInfoS}}
+              <div class = "border-bottom">
+                  <br>
+                  <a class = "btn btn-link" href="/course/view-video/{{this._id}}">{{this.Title}}</a>
+                   <a class = "btn btn-link delete-button" href="/course/delete-video/{{this._id}}" data-toggle="modal" data-target="#delete-announcement" data-id ="{{this._id}}">{{../DeleteVideo}}</a> 
+                  <br>
+              </div>
+          {{/each}}
+        </div>
+        <!--
+          <form action="/course/{{idCourse}}/upload-comment" method="post" >
+              <b for="UserName">{{UserName}}</b><br>
+              <input  type="text" id ="UserName" name="Content" required placeholder="Write something here" >
+              
+              <input type="submit" value = "Comment">
+          </form>
+        
         <br>
-        <br>
-        <br>
-        <br>
-        <form action="/course/{{idCourse}}/upload-comment" method="post" >
-            <b for="UserName">{{UserName}}</b><br>
-            <input  type="text" id ="UserName" name="Content" required placeholder="Write something here" >
-            
-            <input type="submit" value = "Comment">
-        </form>
-        <br>
+        
         {{#each CommentS}}
             <div>
                 <br>
@@ -52,6 +63,7 @@
                     </div>
             </div>
         {{/each}}
+        //-->
         <br>
     <div class="mt-4">
          
@@ -61,18 +73,22 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Delete this Comment?</h5>
+        <h5 class="modal-title">XOÁ BÀI GIẢNG NÀY?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>This action will delete this comment</p>
+        <p>
+          <span style="color: black;">BÀI GIẢNG NÀY SẼ BỊ XOÁ</span>
+          <strong style="color: red;">VĨNH VIỄN</strong>
+        </p>
+        <p>Hãy cẩn trọng vì hành động này sẽ ảnh hưởng đến sinh viên đang theo học của bạn!</p>
         <p id = "title-content"> </p>
       </div>
       <div class="modal-footer">
-        <button id = "btn-delete" type="button" class="btn btn-danger">Delete</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id = "btn-delete" type="button" class="btn btn-danger">XOÁ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ĐÓNG</button>
       </div>
     </div>
   </div>
@@ -92,7 +108,7 @@ $('#delete-announcement').on('show.bs.modal', function (event) {
     });
     var btnDelete = document.getElementById('btn-delete')
     btnDelete.onclick = function(){
-        deleteForm.action = '/course/delete-comment/'+ id;
+        deleteForm.action = '/course/delete-video/'+ id  ;
         deleteForm.submit();
     }
 
