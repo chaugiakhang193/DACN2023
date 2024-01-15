@@ -59,7 +59,7 @@ class ForgetController{
                 from:process.env.Email,
                 to:email,
                 subject:'Mail hỗ trợ đổi mật khẩu',
-                html: '<p> Xin Chào '+name+', hãy sao chép <a href ="http://127.0.0.1:3000/forget/reset-password?token='+token+ '">đường link này và tạo mật khẩu mới nhé!</a>' 
+                html: '<p> Xin Chào '+name+', hãy nhấp vào <a href ="http://127.0.0.1:3000/forget/reset-password?token='+token+ '">đường link này và tạo mật khẩu mới nhé!</a>' 
             }
 
             await transporter.sendMail(mailOptions, function(error,infor){

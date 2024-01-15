@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../.././src/public/css/Auth/login.css">
+    
 </head>
 <body>
         <div class="login-container d-flex align-items-center justify-content-center">
-           
-            <form action="/forget" method="post" class ="login-form text-center form-content">
+            <br> 
+            <br> 
+            <br>
+            <form action="/forget" method="post" class ="login-form text-center form-content"style="margin-top: 40px;">
                 <h2>QUÊN MẬT KHẨU</h2>
                 <div class ="reset" style=" margin-top: 20px;">
                 <p>Nhập email được dùng để đăng ký tài khoản của bạn</p>
@@ -18,8 +21,9 @@
                 <p>Hệ thống sẽ gửi mail hỗ trợ bạn đổi mật khẩu</p>
                 </div >
                 <input class ="form-control" type="email" name="email" required placeholder="email">    
-               
-                <p> {{message}}</p>
+               <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: pre-line;max-width: 300px ">
+                <b> {{message}}</b></div>   
+                <br>
                 <button class ="btn btn-primary btn-block" type="submit" value = "Send">Gửi</button>     
             </form>
         </div>
