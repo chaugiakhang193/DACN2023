@@ -8,19 +8,22 @@
     <link rel="stylesheet" href="../../../.././src/public/css/Announcement/DetailPage.css">
 </head>
 <body>
-
+    <div style="max-width: 1050px; overflow: hidden; text-overflow: ellipsis; white-space: normal;">
         <h2> {{Title}} </h2>
-
+ 
         <div class ="mt-4">
-            <h4> {{Description}} </h4> <p>Ngày đăng thông báo: {{CreateAt}}</p>
+            <h4> {{Description}} </h4>
+            <p>Ngày đăng thông báo: {{CreateAt}}</p>
             <p>Người tạo thông báo: {{Author}}</p>
         </div>
-        <div class = "reset">
-            <div style="white-space:pre">{{Content}} </div>
+        
+        <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: pre-line">
+            {{Content}}
         </div>
+    </div>
 
     <div class="mt-6">
-    <a href="/">back to home</a>
+        <a href="/">back to home</a>
     </div>
 </body>
 </html>

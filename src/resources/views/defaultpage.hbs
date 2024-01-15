@@ -35,7 +35,7 @@
 <body>
     <div class="login-container d-flex align-items-center justify-content-center"style="width: 35%;">
         <form action="/login" method="post" class="login-form text-center form-content" >
-            <h2>ĐĂNG NHẬP</h2>
+            <h3>ĐĂNG NHẬP</h3>
             <input class="form-control" type="text" name="name" required placeholder="Username">
             <br>
             <input class="form-control" type="password" name="password" required placeholder="********">
@@ -48,7 +48,7 @@
     </div>
 
     <div class="AnnouncementInfoS" style="width: 65%; ">
-        <h2>THÔNG BÁO CÔNG KHAI</h2>
+        <h4>THÔNG BÁO CÔNG KHAI</h4>
         {{#each AnnoucementInfoS}}
         <div>
             <a style="margin:0;display:inline;float:left" href="/announcement/public/{{this._id}}">[{{this.Type}}] {{this.Title}} </a>
